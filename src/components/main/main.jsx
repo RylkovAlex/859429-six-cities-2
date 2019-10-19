@@ -1,6 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import PlaceCard from '../place-card/place-card.jsx';
 
-const Main = () => {
+
+const Main = (props) => {
+  const {places} = props;
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -77,22 +81,30 @@ const Main = () => {
                     <use xlinkHref="#icon-arrow-select"></use>
                   </svg>
                 </span>
-                <ul className="places__options places__options--custom places__options--opened">
+                {/* <ul className="places__options places__options--custom places__options--opened">
                   <li className="places__option places__option--active" tabIndex="0">Popular</li>
                   <li className="places__option" tabIndex="0">Price: low to high</li>
                   <li className="places__option" tabIndex="0">Price: high to low</li>
                   <li className="places__option" tabIndex="0">Top rated first</li>
-                </ul>
+                </ul> */}
 
-                <select className="places__sorting-type" id="places-sorting">
+                {/* <select className="places__sorting-type" id="places-sorting">
                   <option className="places__option" value="popular">Popular</option>
                   <option className="places__option" value="to-high">Price: low to high</option>
                   <option className="places__option" value="to-low">Price: high to low</option>
                   <option className="places__option" value="top-rated">Top rated first</option>
-                </select>
+                </select> */}
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <article className="cities__place-card place-card">
+                {places.map((place) => <PlaceCard
+                  key = {place.id}
+                  isPremium = {place.isPremium}
+                  previewImage = {place.previewImage}
+                  price = {place.price}
+                  type = {place.type}
+                  title = {place.title}
+                />)}
+                {/* <article className="cities__place-card place-card">
                   <div className="place-card__mark">
                     <span>Premium</span>
                   </div>
@@ -256,7 +268,7 @@ const Main = () => {
                     </h2>
                     <p className="place-card__type">Private room</p>
                   </div>
-                </article>
+                </article> */}
               </div>
             </section>
             <div className="cities__right-section">
@@ -267,6 +279,17 @@ const Main = () => {
       </main>
     </div>
   );
+};
+
+Main.propTypes = {
+  places: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    isPremium: PropTypes.bool,
+    previewImage: PropTypes.string,
+    price: PropTypes.number,
+    type: PropTypes.string,
+    title: PropTypes.title,
+  })),
 };
 
 export default Main;
