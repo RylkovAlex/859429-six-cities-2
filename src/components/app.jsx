@@ -1,7 +1,7 @@
 import React from 'react';
 import Main from './main/main.jsx';
 
-const places = ([
+const cards = ([
   {
     id: 1,
     isPremium: true,
@@ -39,7 +39,7 @@ const places = ([
 const App = () => {
   return (
     <Main
-      places = {places}
+      cards = {cards}
     />
   );
 };
