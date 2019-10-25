@@ -3,6 +3,7 @@
 exports[`PlaceCard correctly renders after relaunch 1`] = `
 <article
   className="cities__place-card place-card"
+  onMouseEnter={[Function]}
 >
   <div
     className="place-card__mark"
@@ -21,7 +22,7 @@ exports[`PlaceCard correctly renders after relaunch 1`] = `
         alt="Place image"
         className="place-card__image"
         height="200"
-        src="Some link"
+        src=""
         width="260"
       />
     </a>
@@ -93,13 +94,13 @@ exports[`PlaceCard correctly renders after relaunch 1`] = `
       <a
         href="#"
       >
-        SomeTitle
+        
       </a>
     </h2>
     <p
       className="place-card__type"
     >
-      SomeType
+      
     </p>
   </div>
 </article>

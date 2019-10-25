@@ -1,47 +1,28 @@
 import React from 'react';
 import Main from './main/main.jsx';
+import PropTypes from 'prop-types';
 
-const cards = ([
-  {
-    id: 1,
-    isPremium: true,
-    previewImage: `img/apartment-01.jpg`,
-    price: 120,
-    type: `Apartment`,
-    title: `Beautiful & luxurious studio at great location`,
-  },
-  {
-    id: 2,
-    isPremium: true,
-    previewImage: `img/apartment-01.jpg`,
-    price: 120,
-    type: `Apartment`,
-    title: `Beautiful & luxurious studio at great location`,
-  },
-  {
-    id: 3,
-    isPremium: true,
-    previewImage: `img/apartment-01.jpg`,
-    price: 120,
-    type: `Apartment`,
-    title: `Beautiful & luxurious studio at great location`,
-  },
-  {
-    id: 4,
-    isPremium: true,
-    previewImage: `img/apartment-01.jpg`,
-    price: 120,
-    type: `Apartment`,
-    title: `Beautiful & luxurious studio at great location`,
-  },
-]);
+const App = (props) => {
+  const {offerCards} = props;
 
-const App = () => {
   return (
     <Main
-      cards = {cards}
+      offerCards = {offerCards}
     />
   );
+};
+
+// TODO: надо ли так развёрнуто описывать Props'ы для тех компонентов, которые их не используют, а передают дальше?
+App.propTypes = {
+  offerCards: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    isPremium: PropTypes.bool,
+    isFavorite: PropTypes.bool.isRequired,
+    previewImage: PropTypes.string,
+    price: PropTypes.number,
+    type: PropTypes.string,
+    title: PropTypes.title,
+  })),
 };
 
 export default App;

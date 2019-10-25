@@ -1,14 +1,14 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import Main from './main';
+import App from './app';
 
-it(`Main correctly renders after relaunch`, () => {
+it(`OfferList correctly renders after relaunch`, () => {
   const props = {
     offerCards: []
   };
 
   const tree = renderer
-    .create(<Main {...props}/>)
+    .create(<App {...props}/>)
     .toJSON();
 
   expect(tree).toMatchSnapshot();
