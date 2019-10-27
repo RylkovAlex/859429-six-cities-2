@@ -8,7 +8,8 @@ it(`PlaceCard correctly renders after relaunch`, () => {
     isPremium: false,
     isFavorite: false,
     previewImage: ``,
-    price: 1,
+    price: 0,
+    rating: 0,
     type: ``,
     title: ``,
   };

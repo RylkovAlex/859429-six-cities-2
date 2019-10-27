@@ -15,6 +15,7 @@ it(`OfferCard is correctly handle hover`, () => {
     isFavorite = {false}
     previewImage = {``}
     price = {0}
+    rating = {0}
     type = {``}
     title = {``}
     onCardHover = {onCardHoverHandler}

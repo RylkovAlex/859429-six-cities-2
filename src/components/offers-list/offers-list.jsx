@@ -2,40 +2,25 @@ import React from 'react';
 import OfferCard from '../offer-card/offer-card.jsx';
 import PropTypes from 'prop-types';
 
-export default class OffersList extends React.PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      activeCardId: null,
-    };
-  }
-
-  render() {
-    const {offerCards} = this.props;
-    return (
-      <div className="cities__places-list places__list tabs__content">
-        {offerCards.map((card) => <OfferCard
-          id = {card.id}
-          key = {`card-${card.id}`}
-          isPremium = {card.isPremium}
-          isFavorite = {card.isFavorite}
-          previewImage = {card.previewImage}
-          price = {card.price}
-          type = {card.type}
-          title = {card.title}
-          onCardHover = {this._cardHoverHandler.bind(this)}
-        />)}
-      </div>
-    );
-  }
-
-  _cardHoverHandler(cardId) {
-    this.setState({
-      activeCardId: cardId,
-    });
-  }
-}
+const OffersList = (props) => {
+  const {offerCards, onCardHover} = props;
+  return (
+    <div className="cities__places-list places__list tabs__content">
+      {offerCards.map((card) => <OfferCard
+        id = {card.id}
+        key = {`card-${card.id}`}
+        isPremium = {card.isPremium}
+        isFavorite = {card.isFavorite}
+        rating = {card.rating}
+        previewImage = {card.previewImage}
+        price = {card.price}
+        type = {card.type}
+        title = {card.title}
+        onCardHover = {onCardHover}
+      />)}
+    </div>
+  );
+};
 
 OffersList.propTypes = {
   offerCards: PropTypes.arrayOf(PropTypes.shape({
@@ -47,4 +32,7 @@ OffersList.propTypes = {
     type: PropTypes.string,
     title: PropTypes.title,
   })),
+  onCardHover: PropTypes.func,
 };
+
+export default OffersList;

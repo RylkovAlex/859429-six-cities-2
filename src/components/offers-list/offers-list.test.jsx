@@ -4,7 +4,8 @@ import OfferList from './offers-list';
 
 it(`OfferList correctly renders after relaunch`, () => {
   const props = {
-    offerCards: []
+    offerCards: [],
+    onCardHover: jest.fn(),
   };
 
   const tree = renderer

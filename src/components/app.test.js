@@ -1,8 +1,8 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import App from './app';
+import {App} from './app';
 
-it(`OfferList correctly renders after relaunch`, () => {
+it(`App correctly renders after relaunch`, () => {
   const props = {
     offerCards: []
   };
