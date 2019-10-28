@@ -1,6 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import {App} from './app';
+import {MemoryRouter} from 'react-router';
 
 it(`App correctly renders after relaunch`, () => {
   const props = {
@@ -8,7 +9,11 @@ it(`App correctly renders after relaunch`, () => {
   };
 
   const tree = renderer
-    .create(<App {...props}/>)
+    .create(
+        <MemoryRouter>
+          <App {...props}/>
+        </MemoryRouter>
+    )
     .toJSON();
 
   expect(tree).toMatchSnapshot();
