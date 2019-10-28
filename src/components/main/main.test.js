@@ -4,14 +4,7 @@ import Main from './main';
 
 it(`Main correctly renders after relaunch`, () => {
   const props = {
-    cards: [{
-      id: 0,
-      isPremium: false,
-      previewImage: `Some link`,
-      price: 1,
-      type: `SomeType`,
-      title: `SomeTitle`,
-    }]
+    offerCards: []
   };
 
   const tree = renderer

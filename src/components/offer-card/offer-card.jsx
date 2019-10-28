@@ -1,15 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {NavLink} from 'react-router-dom';
 
-const PlaceCard = (props) => {
-  const {isPremium, previewImage, price, type, title, onCardClickHandler} = props;
+const OfferCard = (props) => {
+  const {id, isPremium, previewImage, rating, price, type, title, onCardHover, isFavorite} = props;
 
   const buttonClasses = [`place-card__bookmark-button`, `button`];
-  // if (isActive) {
-  //   buttonClasses.push(`place-card__bookmark-button--active`);
-  // }
+  if (isFavorite) {
+    buttonClasses.push(`place-card__bookmark-button--active`);
+  }
+
+  const ratingStyle = {
+    width: `${rating * 20}%`,
+  };
+
   return (
-    <article className="cities__place-card place-card" onClick = {onCardClickHandler}>
+    <article
+      className="cities__place-card place-card"
+      onMouseEnter = {() => {
+        onCardHover(id);
+      }}
+    >
       <div className="place-card__mark">
         <span>{isPremium ? `Premium` : ``}</span>
       </div>
@@ -33,12 +44,18 @@ const PlaceCard = (props) => {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `93%`}}></span>
+            <span style={ratingStyle}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{title}</a>
+          {/* TODO: не знаю правильно ли через NavLink сделал или нужно как-то иначе обрабатывать клик по заголовку?*/}
+          <NavLink
+            to = {`/offer/${id}`}
+            exact
+          >
+            {title}
+          </NavLink>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>
@@ -46,13 +63,16 @@ const PlaceCard = (props) => {
   );
 };
 
-PlaceCard.propTypes = {
+OfferCard.propTypes = {
+  id: PropTypes.number.isRequired,
+  isFavorite: PropTypes.bool.isRequired,
   isPremium: PropTypes.bool.isRequired,
+  rating: PropTypes.number.isRequired,
   price: PropTypes.number.isRequired,
   type: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   previewImage: PropTypes.string.isRequired,
-  onCardClickHandler: PropTypes.func,
+  onCardHover: PropTypes.func,
 };
 
-export default PlaceCard;
+export default OfferCard;

@@ -1,9 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/app.jsx';
+import {offerCards} from './mocks/offers.js';
+import {BrowserRouter} from 'react-router-dom';
 
 const app = (
-  <App/>
+  <BrowserRouter>
+    <App
+      offerCards = {offerCards}
+    />
+  </BrowserRouter>
 );
 
 ReactDOM.render(app, document.getElementById(`root`));
