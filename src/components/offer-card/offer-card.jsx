@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {NavLink} from 'react-router-dom';
+import {offerCardPropTypes} from '../../prop-types/prop-types';
 
-const OfferCard = (props) => {
-  const {id, isPremium, previewImage, rating, price, type, title, onCardHover, isFavorite} = props;
+const OfferCard = ({card, onCardHover}) => {
+  const {id, isPremium, previewImage, rating, price, type, title, isFavorite} = card;
 
   const buttonClasses = [`place-card__bookmark-button`, `button`];
   if (isFavorite) {
@@ -64,14 +65,7 @@ const OfferCard = (props) => {
 };
 
 OfferCard.propTypes = {
-  id: PropTypes.number.isRequired,
-  isFavorite: PropTypes.bool.isRequired,
-  isPremium: PropTypes.bool.isRequired,
-  rating: PropTypes.number.isRequired,
-  price: PropTypes.number.isRequired,
-  type: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  previewImage: PropTypes.string.isRequired,
+  card: PropTypes.shape(offerCardPropTypes),
   onCardHover: PropTypes.func,
 };
 

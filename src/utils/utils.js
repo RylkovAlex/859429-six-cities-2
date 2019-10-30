@@ -14,3 +14,6 @@ export const removePrefix = (string, prefix) => {
   }
   return string;
 };
+
+// Для тестов
+export const createNodeMock = () => document.createElement(`div`);
