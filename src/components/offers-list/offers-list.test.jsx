@@ -6,8 +6,8 @@ jest.mock(`../offer-card/offer-card.jsx`, () => jest.fn().mockReturnValue(null))
 
 it(`OfferList correctly renders after relaunch`, () => {
   const props = {
-    offerCards: [],
-    onCardHover: jest.fn(),
+    children: <div/>,
+    className: ``,
   };
 
   const tree = renderer

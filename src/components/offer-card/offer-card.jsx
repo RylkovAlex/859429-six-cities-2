@@ -3,12 +3,16 @@ import PropTypes from 'prop-types';
 import {NavLink} from 'react-router-dom';
 import {offerCardPropTypes} from '../../prop-types/prop-types';
 
-const OfferCard = ({card, onCardHover}) => {
+// TODO: из-зи разных классов на разных страницах, приходется компоненту добавлять 2 пропса htmlBEMParent и className - есть вариант как-то иначе эту проблему решить?
+const OfferCard = ({card, onCardHover, htmlBEMParent = `page`, className = ``}) => {
   const {id, isPremium, previewImage, rating, price, type, title, isFavorite} = card;
-
+  const articleClasses = [`place-card`];
   const buttonClasses = [`place-card__bookmark-button`, `button`];
   if (isFavorite) {
     buttonClasses.push(`place-card__bookmark-button--active`);
+  }
+  if (className) {
+    articleClasses.push(className);
   }
 
   const ratingStyle = {
@@ -17,15 +21,15 @@ const OfferCard = ({card, onCardHover}) => {
 
   return (
     <article
-      className="cities__place-card place-card"
+      className={articleClasses.join(` `)}
       onMouseEnter = {() => {
         onCardHover(id);
       }}
     >
-      <div className="place-card__mark">
-        <span>{isPremium ? `Premium` : ``}</span>
-      </div>
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      {isPremium ? <div className="place-card__mark">
+        <span>Premium</span>
+      </div> : ``}
+      <div className={`${htmlBEMParent}__image-wrapper place-card__image-wrapper`}>
         <a href="#">
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image"/>
         </a>
@@ -67,6 +71,8 @@ const OfferCard = ({card, onCardHover}) => {
 OfferCard.propTypes = {
   card: PropTypes.shape(offerCardPropTypes),
   onCardHover: PropTypes.func,
+  htmlBEMParent: PropTypes.string,
+  className: PropTypes.string,
 };
 
 export default OfferCard;

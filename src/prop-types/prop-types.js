@@ -69,3 +69,29 @@ export const offerCardForTests = {
     zoom: 1,
   },
 };
+
+export const reviewPropTypes = {
+  id: PropTypes.number.isRequired,
+  user: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    isPro: PropTypes.bool.isRequired,
+    name: PropTypes.string.isRequired,
+    avatarUrl: PropTypes.string.isRequired,
+  }),
+  rating: PropTypes.number.isRequired,
+  comment: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
+};
+
+export const reviewForTests = {
+  id: 0,
+  user: {
+    id: 0,
+    isPro: false,
+    name: ``,
+    avatarUrl: ``,
+  },
+  rating: 0,
+  comment: ``,
+  date: new Date(Date.now()).toString(),
+};

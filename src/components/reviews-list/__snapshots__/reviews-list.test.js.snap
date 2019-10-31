@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ReviewsList correctly renders after relaunch 1`] = `
+<ul
+  className="reviews__list"
+/>
+`;

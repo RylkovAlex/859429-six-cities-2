@@ -6,7 +6,8 @@ import {createNodeMock} from '../../utils/utils';
 
 it(`Map correctly renders after relaunch`, () => {
   const props = {
-    cards: [offerCardForTests]
+    points: [offerCardForTests],
+    children: <div></div>
   };
 
   const tree = renderer

@@ -1,24 +1,20 @@
 import React from 'react';
-import OfferCard from '../offer-card/offer-card.jsx';
 import PropTypes from 'prop-types';
-import {offerCardPropTypes} from '../../prop-types/prop-types.js';
+
+// TODO: пока не понял зачем вообще нужен этот компонент если его можно заменить обычным div с нужным классом, но в заданиях требовалось создать...ещё в module4-task2 предлагают переиспользовать компоненты карточек и списка на другой странице - я вроде так и сделал, но не знаю правильно ли - мб имелось в виду что-то другое, использовать композицию, например... но тогда как? Изначально у меня этот OffersList рендерил внутри себя карточки, но тогда с переиспользованием получались сложности из-за того что надо классами манипулировать - я переделал просто на возврат props.children чтоб все нужные свойства карточкам в родетеле передавать, а не через этот компонент.
 
 const OffersList = (props) => {
-  const {offerCards, onCardHover} = props;
+  const {className} = props;
   return (
-    <div className="cities__places-list places__list tabs__content">
-      {offerCards.map((card) => <OfferCard
-        key = {`card-${card.id}`}
-        card = {card}
-        onCardHover = {onCardHover}
-      />)}
+    <div className={className}>
+      {props.children}
     </div>
   );
 };
 
 OffersList.propTypes = {
-  offerCards: PropTypes.arrayOf(PropTypes.shape(offerCardPropTypes)),
-  onCardHover: PropTypes.func,
+  children: PropTypes.node,
+  className: PropTypes.string,
 };
 
 export default OffersList;
