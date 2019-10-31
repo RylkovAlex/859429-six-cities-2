@@ -1,9 +1,9 @@
 import React from 'react';
-import Main from './main/main.jsx';
+import Main from '../main/main.jsx';
 import PropTypes from 'prop-types';
 import {Route, Switch, Redirect, withRouter} from 'react-router-dom';
-import OfferPage from './offer-page/offer-page.jsx';
-import {offerCardPropTypes} from '../prop-types/prop-types.js';
+import OfferPage from '../offer-page/offer-page.jsx';
+import {offerCardPropTypes} from '../../prop-types/prop-types.js';
 
 export const App = (props) => {
   const {offerCards, location} = props;

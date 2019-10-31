@@ -13,7 +13,6 @@ it(`Map correctly renders after relaunch`, () => {
     .create(<Map {...props}/>, {createNodeMock})
     .toJSON();
 
-  // expect(tree).toMatchSnapshot();
-  // eslint-disable-next-line no-console
-  console.log(tree);
+  expect(tree).toMatchSnapshot();
+
 });
