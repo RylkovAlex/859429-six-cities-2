@@ -2,17 +2,12 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import OfferCard from './offer-card';
 import {MemoryRouter} from 'react-router';
+import {offerCardForTests} from '../../prop-types/prop-types';
 
 it(`PlaceCard correctly renders after relaunch`, () => {
   const props = {
-    id: 0,
-    isPremium: false,
-    isFavorite: false,
-    previewImage: ``,
-    price: 0,
-    rating: 0,
-    type: ``,
-    title: ``,
+    card: offerCardForTests,
+    onCardHover: jest.fn(),
   };
 
   const tree = renderer

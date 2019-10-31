@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import OffersList from '../offers-list/offers-list.jsx';
+import {offerCardPropTypes} from '../../prop-types/prop-types.js';
+import Map from '../map/map.jsx';
 
 export default class Main extends React.PureComponent {
   constructor(props) {
@@ -104,13 +106,16 @@ export default class Main extends React.PureComponent {
                   <option className="places__option" value="top-rated">Top rated first</option>
                 </select> */}
                 </form>
+                {/* ПРЕДЛОЖЕНИЯ ПО АРЕНДЕ */}
                 <OffersList
                   offerCards = {offerCards}
                   onCardHover = {this._cardHoverHandler}
                 />
               </section>
               <div className="cities__right-section">
-                <section className="cities__map map"></section>
+                <Map
+                  cards = {offerCards}
+                />
               </div>
             </div>
           </div>
@@ -127,13 +132,6 @@ export default class Main extends React.PureComponent {
 }
 
 Main.propTypes = {
-  offerCards: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number,
-    isPremium: PropTypes.bool,
-    previewImage: PropTypes.string,
-    price: PropTypes.number,
-    type: PropTypes.string,
-    title: PropTypes.title,
-  })),
+  offerCards: PropTypes.arrayOf(PropTypes.shape(offerCardPropTypes)),
   onCardClick: PropTypes.func,
 };

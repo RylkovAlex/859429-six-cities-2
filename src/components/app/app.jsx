@@ -1,8 +1,9 @@
 import React from 'react';
-import Main from './main/main.jsx';
+import Main from '../main/main.jsx';
 import PropTypes from 'prop-types';
 import {Route, Switch, Redirect, withRouter} from 'react-router-dom';
-import OfferPage from './offer-page/offer-page.jsx';
+import OfferPage from '../offer-page/offer-page.jsx';
+import {offerCardPropTypes} from '../../prop-types/prop-types.js';
 
 export const App = (props) => {
   const {offerCards, location} = props;
@@ -27,20 +28,11 @@ export const App = (props) => {
   );
 };
 
-// TODO: надо ли так развёрнуто описывать Props'ы для тех компонентов, которые их не используют, а передают дальше?
 App.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }),
-  offerCards: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number,
-    isPremium: PropTypes.bool,
-    isFavorite: PropTypes.bool.isRequired,
-    previewImage: PropTypes.string,
-    price: PropTypes.number,
-    type: PropTypes.string,
-    title: PropTypes.title,
-  })),
+  offerCards: PropTypes.arrayOf(PropTypes.shape(offerCardPropTypes)),
 };
 
 export default withRouter(App);

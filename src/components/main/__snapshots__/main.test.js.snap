@@ -192,17 +192,10 @@ exports[`Main correctly renders after relaunch 1`] = `
               </svg>
             </span>
           </form>
-          <div
-            className="cities__places-list places__list tabs__content"
-          />
         </section>
         <div
           className="cities__right-section"
-        >
-          <section
-            className="cities__map map"
-          />
-        </div>
+        />
       </div>
     </div>
   </main>
