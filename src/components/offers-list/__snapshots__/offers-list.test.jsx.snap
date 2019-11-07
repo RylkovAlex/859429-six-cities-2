@@ -2,8 +2,6 @@
 
 exports[`OfferList correctly renders after relaunch 1`] = `
 <div
-  className=""
->
-  <div />
-</div>
+  className="cities__places-list places__list tabs__content"
+/>
 `;

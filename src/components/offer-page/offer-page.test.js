@@ -19,9 +19,13 @@ jest.mock(`../map/map.jsx`, () => jest.fn().mockReturnValue(null));
 
 it(`OfferPage correctly renders after relaunch`, () => {
   const props = {
-    card: offerCardForTests,
-    nearbyCards: [],
+    offers: [offerCardForTests],
     reviews: [],
+    match: {
+      params: {
+        id: `0`,
+      }
+    }
   };
 
   const tree = renderer

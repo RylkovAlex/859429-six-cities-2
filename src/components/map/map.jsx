@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import {offerCardPropTypes} from '../../prop-types/prop-types';
 
 export default class Map extends React.PureComponent {
-  constructor(proops) {
-    super(proops);
+  constructor(props) {
+    super(props);
     this._mapRef = React.createRef();
 
-    this._points = this.props.points || [];
+    this._points = props.points || [];
     this._city = this._points[0].city || `Amsterdam`;
     this._cityCoords = [this._city.location.latitude, this._city.location.longitude];
     this._icon = L.icon({

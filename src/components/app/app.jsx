@@ -6,24 +6,15 @@ import OfferPage from '../offer-page/offer-page.jsx';
 import {offerCardPropTypes, reviewPropTypes} from '../../prop-types/prop-types.js';
 
 export const App = (props) => {
-  const {offerCards, reviews, location} = props;
-  let cardToShow = null; // TODO: надо ли state заводить под это дело? просто мне надо хранить эту карточку, чтоб 2 раза не вызывать getCardToShow, когда передаю пропсы компоненту OfferPage
-  const getCardToShow = (loc) => {
-    const id = +loc.pathname.replace(`/offer/`, ``);
-    if (Number.isInteger(id)) {
-      cardToShow = offerCards.find((card) => card.id === id);
-      return cardToShow;
-    }
-    return null;
-  };
+  const {offerCards, reviews} = props;
 
   return (
     <Switch>
       <Route path = "/" exact render = {() => <Main offerCards = {offerCards} />}/>
-      <Route path = "/offer/" render = {() => <OfferPage
-        card = {getCardToShow(location)}
+      <Route path = "/offer/:id" render = {(allProps) => <OfferPage
+        offers = {offerCards}
         reviews = {reviews}
-        nearbyCards = {offerCards.filter((card) => card.city.name === cardToShow.city.name && card.id !== cardToShow.id)}
+        {...allProps}
       />}/>
       {/* TODO: не пойму почему не срабатывает Redirect при вводе вручную любого несуществующего path
       и почему вообще если вводить в адресную строку вручную даже правильный адрес, типа /offer/1 то он не обрабатывается, а выдаёт ошибку?! Хотя если этот адрес попадает в строку от клика по ссылке (по заголовку карточки), то норм всё...?! */}

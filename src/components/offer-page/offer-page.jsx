@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {reviewPropTypes, offerCardPropTypes} from '../../prop-types/prop-types';
 
-import OffersList from '../offers-list/offers-list.jsx';
+import OffersList, {ListType} from '../offers-list/offers-list.jsx';
 import ReviewsList from '../reviews-list/reviews-list.jsx';
 import Header from '../header/header.jsx';
 import Map from '../map/map.jsx';
-import OfferCard from '../offer-card/offer-card.jsx';
 
-class OfferPage extends React.PureComponent {
+class OfferPage extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -19,7 +19,9 @@ class OfferPage extends React.PureComponent {
   }
 
   render() {
-    const {reviews, card, nearbyCards} = this.props;
+    const {reviews, offers} = this.props;
+    const card = offers.find((offer) => +offer.id === +this.props.match.params.id);
+    const nearbyCards = offers.filter((offer) => offer.city.name === card.city.name && offer.id !== card.id);
     const {images, title, isPremium, rating, type, bedrooms, maxAdults, price, goods, host, description} = card;
     const ratingStyle = {
       width: `${rating * 20}%`,
@@ -173,15 +175,10 @@ class OfferPage extends React.PureComponent {
             <section className="near-places places">
               <h2 className="near-places__title">Other places in the neighbourhood</h2>
               <OffersList
-                className = "near-places__list places__list"
+                offerCards = {nearbyCards}
+                listType = {ListType.NearbyList}
+                onCardHover = {this._cardHoverHandler}
               >
-                {nearbyCards.map((c) => <OfferCard
-                  key = {`card-${c.id}`}
-                  card = {c}
-                  onCardHover = {this._cardHoverHandler}
-                  htmlBEMParent = "near-places"
-                  className = "near-places__card"
-                />)}
               </OffersList>
             </section>
           </div>
@@ -199,9 +196,13 @@ class OfferPage extends React.PureComponent {
 }
 
 OfferPage.propTypes = {
-  card: PropTypes.shape(offerCardPropTypes),
-  nearbyCards: PropTypes.arrayOf(PropTypes.shape(offerCardPropTypes)),
+  offers: PropTypes.arrayOf(PropTypes.shape(offerCardPropTypes)),
   reviews: PropTypes.arrayOf(PropTypes.shape(reviewPropTypes)),
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    })
+  })
 };
 
 export default OfferPage;

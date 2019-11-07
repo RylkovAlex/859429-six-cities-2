@@ -1,19 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {NavLink} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {offerCardPropTypes} from '../../prop-types/prop-types';
+import classNames from 'classnames';
+import {ListType} from '../offers-list/offers-list.jsx';
 
-// TODO: из-зи разных классов на разных страницах, приходется компоненту добавлять 2 пропса htmlBEMParent и className - есть вариант как-то иначе эту проблему решить?
-const OfferCard = ({card, onCardHover, htmlBEMParent = `page`, className = ``}) => {
+const OfferCard = ({card, onCardHover, cardType}) => {
   const {id, isPremium, previewImage, rating, price, type, title, isFavorite} = card;
-  const articleClasses = [`place-card`];
-  const buttonClasses = [`place-card__bookmark-button`, `button`];
-  if (isFavorite) {
-    buttonClasses.push(`place-card__bookmark-button--active`);
-  }
-  if (className) {
-    articleClasses.push(className);
-  }
+  const cardClasses = classNames({
+    'place-card': true,
+    'cities__place-card': (cardType === ListType.MainList),
+    'near-places__card': (cardType === ListType.NearbyList)
+  });
+  const buttonClasses = classNames({
+    'place-card__bookmark-button button': true,
+    'place-card__bookmark-button--active': isFavorite,
+  });
+  const cardImageWrapperClasses = classNames({
+    'place-card__image-wrapper': true,
+    'cities__image-wrapper': (cardType === ListType.MainList),
+    'near-places__image-wrapper': (cardType === ListType.NearbyList)
+  });
 
   const ratingStyle = {
     width: `${rating * 20}%`,
@@ -21,7 +28,7 @@ const OfferCard = ({card, onCardHover, htmlBEMParent = `page`, className = ``}) 
 
   return (
     <article
-      className={articleClasses.join(` `)}
+      className={cardClasses}
       onMouseEnter = {() => {
         onCardHover(id);
       }}
@@ -29,7 +36,7 @@ const OfferCard = ({card, onCardHover, htmlBEMParent = `page`, className = ``}) 
       {isPremium ? <div className="place-card__mark">
         <span>Premium</span>
       </div> : ``}
-      <div className={`${htmlBEMParent}__image-wrapper place-card__image-wrapper`}>
+      <div className={`${cardImageWrapperClasses}`}>
         <a href="#">
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image"/>
         </a>
@@ -40,7 +47,7 @@ const OfferCard = ({card, onCardHover, htmlBEMParent = `page`, className = ``}) 
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={buttonClasses.join(` `)} type="button">
+          <button className={buttonClasses} type="button">
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
@@ -54,13 +61,12 @@ const OfferCard = ({card, onCardHover, htmlBEMParent = `page`, className = ``}) 
           </div>
         </div>
         <h2 className="place-card__name">
-          {/* TODO: не знаю правильно ли через NavLink сделал или нужно как-то иначе обрабатывать клик по заголовку?*/}
-          <NavLink
+          <Link
             to = {`/offer/${id}`}
-            exact
+            exact = "true"
           >
             {title}
-          </NavLink>
+          </Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>
@@ -71,8 +77,7 @@ const OfferCard = ({card, onCardHover, htmlBEMParent = `page`, className = ``}) 
 OfferCard.propTypes = {
   card: PropTypes.shape(offerCardPropTypes),
   onCardHover: PropTypes.func,
-  htmlBEMParent: PropTypes.string,
-  className: PropTypes.string,
+  cardType: PropTypes.string,
 };
 
 export default OfferCard;

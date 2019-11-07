@@ -7,7 +7,7 @@ exports[`PlaceCard correctly renders after relaunch 1`] = `
 >
   
   <div
-    className="page__image-wrapper place-card__image-wrapper"
+    className="place-card__image-wrapper"
   >
     <a
       href="#"
@@ -86,7 +86,7 @@ exports[`PlaceCard correctly renders after relaunch 1`] = `
       className="place-card__name"
     >
       <a
-        aria-current={null}
+        exact="true"
         href="/offer/0"
         onClick={[Function]}
       >

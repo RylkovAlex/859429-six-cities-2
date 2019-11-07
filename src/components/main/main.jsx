@@ -2,9 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import OffersList from '../offers-list/offers-list.jsx';
 import {offerCardPropTypes} from '../../prop-types/prop-types.js';
-import OfferCard from '../offer-card/offer-card.jsx';
 import Map from '../map/map.jsx';
 import Header from '../header/header.jsx';
+
+const ListType = {
+  MainList: `main`,
+  NearbyList: `nearby`,
+};
 
 export default class Main extends React.PureComponent {
   constructor(props) {
@@ -90,15 +94,9 @@ export default class Main extends React.PureComponent {
                 {/* ПРЕДЛОЖЕНИЯ ПО АРЕНДЕ */}
                 <OffersList
                   offerCards = {offerCards}
-                  className = "cities__places-list places__list tabs__content"
+                  listType = {ListType.MainList}
+                  onCardHover = {this._cardHoverHandler}
                 >
-                  {offerCards.map((card) => <OfferCard
-                    key = {`card-${card.id}`}
-                    card = {card}
-                    onCardHover = {this._cardHoverHandler}
-                    htmlBEMParent = "cities"
-                    className = "cities__place-card"
-                  />)}
                 </OffersList>
               </section>
               <div className="cities__right-section">
