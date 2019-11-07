@@ -93,5 +93,5 @@ export const reviewForTests = {
   },
   rating: 0,
   comment: ``,
-  date: new Date(Date.now()).toString(),
+  date: `Thu Nov 07 2019 13:56:54 GMT+0300 (Москва, стандартное время)`,
 };
