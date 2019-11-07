@@ -30,7 +30,7 @@ const ReviewItem = ({review}) => {
         <p className="reviews__text">
           {review.comment}
         </p>
-        <time className="reviews__time" dateTime={`${new Date(review.date).toISOString()}`}>{`${new Date(new Date(review.date).toLocaleDateString(`en`, DATE_OPTIONS))}`}</time>
+        <time className="reviews__time" dateTime={`${new Date(review.date).toISOString()}`}>{`${new Date(review.date).toLocaleDateString(`en`, DATE_OPTIONS)}`}</time>
       </div>
     </li>
 
