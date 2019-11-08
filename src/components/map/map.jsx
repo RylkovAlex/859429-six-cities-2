@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 import {offerCardPropTypes} from '../../prop-types/prop-types';
 
 export default class Map extends React.PureComponent {
-  constructor(proops) {
-    super(proops);
+  constructor(props) {
+    super(props);
     this._mapRef = React.createRef();
 
-    this._cards = this.props.cards || [];
-    this._city = this._cards[0].city || `Amsterdam`;
+    this._points = props.points || [];
+    this._city = this._points[0].city || `Amsterdam`;
     this._cityCoords = [this._city.location.latitude, this._city.location.longitude];
     this._icon = L.icon({
       iconUrl: `img/pin.svg`,
@@ -27,17 +27,14 @@ export default class Map extends React.PureComponent {
       'Hydda Map': this._hyddaMap,
       'Base Map': this._baseMap,
     });
+
   }
 
   render() {
     return (
-      <section
-        className="cities__map map"
-        id="map"
-        ref={this._mapRef}
-      >
-
-      </section>
+      React.cloneElement(this.props.children, {
+        ref: this._mapRef
+      })
     );
   }
 
@@ -54,7 +51,7 @@ export default class Map extends React.PureComponent {
 
     this._layers.addTo(map);
     const icon = this._icon;
-    this._cards.forEach((card) => {
+    this._points.forEach((card) => {
       const cardCoords = [card.location.latitude, card.location.longitude];
       L.marker(cardCoords, {
         icon,
@@ -67,5 +64,6 @@ export default class Map extends React.PureComponent {
 }
 
 Map.propTypes = {
-  cards: PropTypes.arrayOf(PropTypes.shape(offerCardPropTypes)),
+  points: PropTypes.arrayOf(PropTypes.shape(offerCardPropTypes)),
+  children: PropTypes.node.isRequired,
 };
