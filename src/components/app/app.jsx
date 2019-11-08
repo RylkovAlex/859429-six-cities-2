@@ -26,10 +26,7 @@ const App = (props) => {
     <Switch>
       <Route path = "/" exact render = {() => (
         <Main
-          offerCards = {offerCards}
-          city = {city}
           cities = {cities}
-
         />)}/>
       <Route path = "/offer/:id" render = {(allProps) => <OfferPage
         offers = {offerCards}

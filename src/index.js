@@ -8,7 +8,7 @@ import App from './components/app/app.jsx';
 import {offerCards} from './mocks/offers.js';
 import {BrowserRouter} from 'react-router-dom';
 import {reviewsMock} from './mocks/reviews.js';
-import appReducer from './redux/reducers/reducer.js';
+import appReducer from './redux/reducers/app-reducer.js';
 
 const store = createStore(appReducer);
 

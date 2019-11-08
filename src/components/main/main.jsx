@@ -27,7 +27,7 @@ class Main extends React.PureComponent {
   }
 
   render() {
-    const {offersToRender, cities, city, offerCards} = this.props;
+    const {offersToRender, cities, city} = this.props;
     return (
       <div className="page page--gray page--main">
         <Header/>
@@ -47,7 +47,7 @@ class Main extends React.PureComponent {
             <div className="cities__places-container container">
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">312 places to stay in Amsterdam</b>
+                <b className="places__found">{offersToRender.length} places to stay in Amsterdam</b>
                 <form className="places__sorting" action="#" method="get">
                   <span className="places__sorting-caption">Sort by</span>
                   <span className="places__sorting-type" tabIndex="0">
@@ -72,7 +72,7 @@ class Main extends React.PureComponent {
                 </form>
                 {/* ПРЕДЛОЖЕНИЯ ПО АРЕНДЕ */}
                 <OffersList
-                  offerCards = {offerCards}
+                  offerCards = {offersToRender}
                   listType = {ListType.MainList}
                   onCardHover = {this._cardHoverHandler}
                 >

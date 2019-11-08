@@ -21,7 +21,7 @@ exports[`ReviewItem correctly renders after relaunch 1`] = `
     <span
       className="reviews__user-name"
     >
-
+      
     </span>
   </div>
   <div
@@ -50,7 +50,7 @@ exports[`ReviewItem correctly renders after relaunch 1`] = `
     <p
       className="reviews__text"
     >
-
+      
     </p>
     <time
       className="reviews__time"

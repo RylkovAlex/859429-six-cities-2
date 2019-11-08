@@ -1,4 +1,4 @@
-import appReducer, {appInitialState} from "./reducer";
+import appReducer, {appInitialState} from "./app-reducer";
 import {CHANGE_CITY, GET_OFFERS} from "../actions/action-types";
 
 describe(`appReducer works correctly`, () => {
