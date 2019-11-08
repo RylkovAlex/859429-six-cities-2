@@ -4,12 +4,20 @@ import PropTypes from 'prop-types';
 import {offerCardPropTypes} from '../../prop-types/prop-types';
 
 export default class Map extends React.PureComponent {
+  static getDerivedStateFromProps(props) {
+    return {
+      points: props.points
+    };
+  }
   constructor(props) {
     super(props);
+    this.state = {
+      points: props.points,
+      isMount: false,
+    };
     this._mapRef = React.createRef();
 
-    this._points = props.points || [];
-    this._city = this._points[0].city || `Amsterdam`;
+    this._city = this.state.points[0].city;
     this._cityCoords = [this._city.location.latitude, this._city.location.longitude];
     this._icon = L.icon({
       iconUrl: `img/pin.svg`,
@@ -27,10 +35,12 @@ export default class Map extends React.PureComponent {
       'Hydda Map': this._hyddaMap,
       'Base Map': this._baseMap,
     });
-
   }
 
   render() {
+    if (this.state.isMount) {
+      this._renderPoints();
+    }
     return (
       React.cloneElement(this.props.children, {
         ref: this._mapRef
@@ -39,25 +49,30 @@ export default class Map extends React.PureComponent {
   }
 
   componentDidMount() {
-    const container = this._mapRef.current;
-    const map = L.map(container, {
+    this._container = this._mapRef.current;
+    this._map = L.map(this._container, {
       center: this._cityCoords,
       zoom: this._city.location.zoom,
       zoomControl: false,
       marker: true,
       layers: [this._baseMap, this._hyddaMap]
     });
-    map.setView(this._cityCoords, this._city.location.zoom);
+    this._layers.addTo(this._map);
+    this.setState({isMount: true});
+  }
 
-    this._layers.addTo(map);
+  _renderPoints() {
+    this._city = this.state.points[0].city;
+    this._cityCoords = [this._city.location.latitude, this._city.location.longitude];
+    this._map.setView(this._cityCoords, this._city.location.zoom);
     const icon = this._icon;
-    this._points.forEach((card) => {
+    this.state.points.forEach((card) => {
       const cardCoords = [card.location.latitude, card.location.longitude];
       L.marker(cardCoords, {
         icon,
         title: card.title,
         alt: card.title,
-      }).addTo(map);
+      }).addTo(this._map);
     });
   }
 

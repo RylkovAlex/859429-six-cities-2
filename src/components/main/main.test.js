@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import Main from './main';
+import {Main} from './main';
 import {MemoryRouter} from 'react-router';
 import {offerCardForTests} from '../../prop-types/prop-types';
 import {createNodeMock} from '../../utils/utils';
@@ -11,7 +11,13 @@ jest.mock(`../header/header.jsx`, () => jest.fn().mockReturnValue(null));
 
 it(`Main correctly renders after relaunch`, () => {
   const props = {
-    offerCards: [offerCardForTests]
+    offerCards: [offerCardForTests],
+    cities: [],
+    onCardClick: jest.fn(),
+    setCity: jest.fn(),
+    setOffersToRender: jest.fn(),
+    offersToRender: [],
+    city: ``,
   };
 
   const tree = renderer

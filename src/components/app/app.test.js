@@ -10,7 +10,14 @@ jest.mock(`../main/main.jsx`, () => jest.fn().mockReturnValue(null));
 
 it(`App correctly renders after relaunch`, () => {
   const props = {
-    offerCards: [offerCardForTests]
+    offerCards: [offerCardForTests],
+    nearbyCards: [],
+    reviews: [],
+
+    getOffersToRender: jest.fn(),
+    setDefaultCity: jest.fn(),
+    offersToRender: [],
+    city: ``,
   };
 
   const tree = renderer

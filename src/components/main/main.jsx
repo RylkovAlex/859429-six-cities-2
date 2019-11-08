@@ -1,16 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
+import {connect} from 'react-redux';
+
 import OffersList from '../offers-list/offers-list.jsx';
 import {offerCardPropTypes} from '../../prop-types/prop-types.js';
 import Map from '../map/map.jsx';
 import Header from '../header/header.jsx';
+import CitiesList from '../cities-list/cities-list.jsx';
+import ActionCreator from '../../redux/actions/action-creator/action-creator.js';
 
 const ListType = {
   MainList: `main`,
   NearbyList: `nearby`,
 };
 
-export default class Main extends React.PureComponent {
+class Main extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,10 +23,11 @@ export default class Main extends React.PureComponent {
     };
 
     this._cardHoverHandler = this._cardHoverHandler.bind(this);
+    this._onCityClick = this._onCityClick.bind(this);
   }
 
   render() {
-    const {offerCards} = this.props;
+    const {offersToRender, cities, city, offerCards} = this.props;
     return (
       <div className="page page--gray page--main">
         <Header/>
@@ -30,38 +36,11 @@ export default class Main extends React.PureComponent {
           <h1 className="visually-hidden">Cities</h1>
           <div className="tabs">
             <section className="locations container">
-              <ul className="locations__list tabs__list">
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#">
-                    <span>Paris</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#">
-                    <span>Cologne</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#">
-                    <span>Brussels</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item tabs__item--active">
-                    <span>Amsterdam</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#">
-                    <span>Hamburg</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#">
-                    <span>Dusseldorf</span>
-                  </a>
-                </li>
-              </ul>
+              <CitiesList
+                city = {city}
+                cities = {cities}
+                cityClickHandler = {this._onCityClick}
+              />
             </section>
           </div>
           <div className="cities">
@@ -100,7 +79,7 @@ export default class Main extends React.PureComponent {
                 </OffersList>
               </section>
               <div className="cities__right-section">
-                <Map points = {offerCards}>
+                <Map points = {offersToRender}>
                   <section className="cities__map map">
                   </section>
                 </Map>
@@ -117,9 +96,36 @@ export default class Main extends React.PureComponent {
       activeCardId: cardId,
     });
   }
+
+  _onCityClick(evt) {
+    evt.preventDefault();
+    this.props.setCity(evt.target.textContent);
+    this.props.setOffersToRender(this.props.offerCards);
+  }
 }
 
 Main.propTypes = {
   offerCards: PropTypes.arrayOf(PropTypes.shape(offerCardPropTypes)),
+  cities: PropTypes.array,
   onCardClick: PropTypes.func,
+
+  setCity: PropTypes.func,
+  setOffersToRender: PropTypes.func,
+  offersToRender: PropTypes.array,
+  city: PropTypes.string,
+
 };
+
+export {Main};
+
+const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
+  city: state.city,
+  offersToRender: state.offers,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setOffersToRender: (offers) => dispatch(ActionCreator.getOffers(offers)),
+  setCity: (city) => dispatch(ActionCreator.changeCity(city)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
