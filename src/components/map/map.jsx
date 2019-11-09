@@ -1,27 +1,24 @@
 import React from 'react';
 import L from 'leaflet';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {offerCardPropTypes} from '../../prop-types/prop-types';
 
-export default class Map extends React.PureComponent {
-  static getDerivedStateFromProps(props) {
-    return {
-      points: props.points
-    };
-  }
+class Map extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      points: props.points,
       isMount: false,
     };
     this._mapRef = React.createRef();
 
-    this._city = this.state.points[0].city;
+    this._city = this.props.points[0].city;
     this._cityCoords = [this._city.location.latitude, this._city.location.longitude];
     this._icon = L.icon({
       iconUrl: `img/pin.svg`,
-      iconSize: [30, 30]
+    });
+    this._iconActive = L.icon({
+      iconUrl: `img/pin-active.svg`,
     });
 
     this._baseMap = L.tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`, {
@@ -57,22 +54,36 @@ export default class Map extends React.PureComponent {
       marker: true,
       layers: [this._baseMap, this._hyddaMap]
     });
+    this._markerGroup = L.layerGroup().addTo(this._map);
     this._layers.addTo(this._map);
     this.setState({isMount: true});
   }
 
+  // TODO: Не пойму почему нужная иконка не всталяется для активной карточки и как вообще тут можно упростить логику и не перерендеривать все маркеры, а менять торлько для активной?
   _renderPoints() {
-    this._city = this.state.points[0].city;
+    this._city = this.props.points[0].city;
     this._cityCoords = [this._city.location.latitude, this._city.location.longitude];
     this._map.setView(this._cityCoords, this._city.location.zoom);
+    this._markerGroup.clearLayers();
     const icon = this._icon;
-    this.state.points.forEach((card) => {
-      const cardCoords = [card.location.latitude, card.location.longitude];
-      L.marker(cardCoords, {
-        icon,
-        title: card.title,
-        alt: card.title,
-      }).addTo(this._map);
+    const iconActive = this._iconActive;
+    const activeCardId = this.props.activeCardId;
+
+    this.props.points.forEach((card) => {
+      if (card.id === activeCardId) {
+        L.marker([card.location.latitude, card.location.longitude], {
+          iconActive,
+          title: card.title,
+          alt: card.title,
+          zIndexOffset: 1,
+        }).addTo(this._markerGroup);
+      } else {
+        L.marker([card.location.latitude, card.location.longitude], {
+          icon,
+          title: card.title,
+          alt: card.title,
+        }).addTo(this._markerGroup);
+      }
     });
   }
 
@@ -81,4 +92,14 @@ export default class Map extends React.PureComponent {
 Map.propTypes = {
   points: PropTypes.arrayOf(PropTypes.shape(offerCardPropTypes)),
   children: PropTypes.node.isRequired,
+  activeCardId: PropTypes.number.isRequired,
 };
+
+export {Map};
+
+const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
+  activeCardId: state.activeCard,
+  points: state.offers,
+});
+
+export default connect(mapStateToProps, null)(Map);

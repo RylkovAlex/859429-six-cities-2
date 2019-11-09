@@ -18,6 +18,7 @@ const App = (props) => {
     getOffersToRender(offerCards);
   }
 
+  // TODO: куда лучше эту логику положить, имеет ли смысл в store хранить список городов?
   let cities = offerCards.map((offer) => offer.city.name);
   cities = Array.from(new Set(cities));
   cities = (cities.length > MAX_CITIES) ? cities.slice(0, MAX_CITIES) : cities;
@@ -27,6 +28,7 @@ const App = (props) => {
       <Route path = "/" exact render = {() => (
         <Main
           cities = {cities}
+          allOffers = {offerCards}
         />)}/>
       <Route path = "/offer/:id" render = {(allProps) => <OfferPage
         offers = {offerCards}
