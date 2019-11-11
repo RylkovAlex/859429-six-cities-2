@@ -28,9 +28,9 @@ const OffersList = (props) => {
 };
 
 OffersList.propTypes = {
-  offerCards: PropTypes.array,
-  listType: PropTypes.string,
-  onCardHover: PropTypes.func,
+  offerCards: PropTypes.array.isRequired,
+  listType: PropTypes.string.isRequired,
+  onCardHover: PropTypes.func.isRequired,
 };
 
 export default OffersList;

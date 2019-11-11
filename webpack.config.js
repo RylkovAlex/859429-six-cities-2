@@ -4,10 +4,12 @@ module.exports = {
   entry: `./src/index.js`,
   output: {
     filename: `bundle.js`,
+    publicPath: '/',
     path: path.join(__dirname, `public`)
   },
   devServer: {
     contentBase: path.join(__dirname, `public`),
+    historyApiFallback: true,
     compress: false,
     open: true,
     port: 1337,

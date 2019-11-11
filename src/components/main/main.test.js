@@ -12,13 +12,12 @@ jest.mock(`../sorting-form/sorting-form.jsx`, () => jest.fn().mockReturnValue(nu
 
 it(`Main correctly renders after relaunch`, () => {
   const props = {
-    offerCards: [offerCardForTests],
+    offersToShow: [offerCardForTests],
     cities: [],
-    onCardClick: jest.fn(),
     setCity: jest.fn(),
-    setOffersToRender: jest.fn(),
-    offersToRender: [],
-    city: ``,
+    setOffersToShow: jest.fn(),
+    changeActiveCard: jest.fn(),
+    city: {},
   };
 
   const tree = renderer

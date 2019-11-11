@@ -11,16 +11,78 @@ export const SortingType = {
   TopRated: `Top rated first`,
 };
 
-function SortingForm({offers, sortOffers}) {
+// class SortingForm extends React.PureComponent {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       isListOpen: false,
+//       sortingType: SortingType.Popular,
+//     };
+//     this._handleSortClick = this._handleSortClick.bind(this);
+//     this._handleOptionClick = this._handleOptionClick.bind(this);
+//   }
+
+//   _handleSortClick() {
+//     this.setState({
+//       isListOpen: !this.state.isListOpen,
+//     });
+//   }
+
+//   _handleOptionClick(type) {
+//     if (type !== this.state.sortingType) {
+//       this.props.sortOffersToShow(type);
+//       this.setState({
+//         sortingType: type,
+//       });
+//     }
+//     this.setState({
+//       isListOpen: !this.state.isListOpen,
+//     });
+//   }
+
+//   render() {
+//     return (
+//       <form className="places__sorting" action="#" method="get">
+//         <span className="places__sorting-caption">Sort by</span>
+//         <span
+//           className="places__sorting-type"
+//           tabIndex="0"
+//           onClick = {this._handleSortClick}
+//         >
+//           {this.state.sortingType}
+//           <svg className="places__sorting-arrow" width="7" height="4">
+//             <use xlinkHref="#icon-arrow-select"></use>
+//           </svg>
+//         </span>
+//         {this.state.isListOpen &&
+//         <SortingOptionsList
+//           onOptionClick = {this._handleOptionClick }
+//           activeOption = {this.state.sortingType}
+//         />
+//         }
+
+//         {/* TODO: зачем этот select и как его использовать?! */}
+//         {/* <select className="places__sorting-type" id="places-sorting">
+//             <option className="places__option" value="popular">Popular</option>
+//             <option className="places__option" value="to-high">Price: low to high</option>
+//             <option className="places__option" value="to-low">Price: high to low</option>
+//             <option className="places__option" value="top-rated">Top rated first</option>
+//           </select> */}
+//       </form>
+//     );
+//   }
+// }
+
+function SortingForm({sortOffersToShow}) {
   const [sortingType, setSortingType] = useState(SortingType.Popular);
   const [isListOpen, setListOpen] = useState(false);
-  // TODO: почему-то компонент с карточками очень медленно реагирует на изменение в сторе, которое я отсюда прокидываю... т.е. он обновляется секунд через 5-10, как исправить?!
   useEffect(() => {
-    sortOffers(offers, sortingType);
+    sortOffersToShow(sortingType);
   }, [sortingType]);
 
   const optionClickHandler = (type) => {
     if (type !== sortingType) {
+      sortOffersToShow(sortingType);
       setSortingType(type);
     }
     setListOpen(!isListOpen);
@@ -60,18 +122,13 @@ function SortingForm({offers, sortOffers}) {
 }
 
 SortingForm.propTypes = {
-  offers: PropTypes.array.isRequired,
-  sortOffers: PropTypes.func.isRequired,
+  sortOffersToShow: PropTypes.func.isRequired,
 };
 
 export {SortingForm};
 
-const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
-  offers: state.offers,
-});
-
 const mapDispatchToProps = (dispatch) => ({
-  sortOffers: (offers, sortType) => dispatch(ActionCreator.sortOffers(offers, sortType)),
+  sortOffersToShow: (sortType) => dispatch(ActionCreator.sortOffersToShow(sortType)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SortingForm);
+export default connect(null, mapDispatchToProps)(SortingForm);

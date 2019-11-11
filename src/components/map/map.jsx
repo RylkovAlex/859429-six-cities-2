@@ -15,10 +15,10 @@ class Map extends React.PureComponent {
     this._city = this.props.points[0].city;
     this._cityCoords = [this._city.location.latitude, this._city.location.longitude];
     this._icon = L.icon({
-      iconUrl: `img/pin.svg`,
+      iconUrl: `/img/pin.svg`,
     });
     this._iconActive = L.icon({
-      iconUrl: `img/pin-active.svg`,
+      iconUrl: `/img/pin-active.svg`,
     });
 
     this._baseMap = L.tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`, {
@@ -32,17 +32,6 @@ class Map extends React.PureComponent {
       'Hydda Map': this._hyddaMap,
       'Base Map': this._baseMap,
     });
-  }
-
-  render() {
-    if (this.state.isMount) {
-      this._renderPoints();
-    }
-    return (
-      React.cloneElement(this.props.children, {
-        ref: this._mapRef
-      })
-    );
   }
 
   componentDidMount() {
@@ -59,7 +48,6 @@ class Map extends React.PureComponent {
     this.setState({isMount: true});
   }
 
-  // TODO: Не пойму почему нужная иконка не всталяется для активной карточки и как вообще тут можно упростить логику и не перерендеривать все маркеры, а менять торлько для активной?
   _renderPoints() {
     this._city = this.props.points[0].city;
     this._cityCoords = [this._city.location.latitude, this._city.location.longitude];
@@ -72,7 +60,7 @@ class Map extends React.PureComponent {
     this.props.points.forEach((card) => {
       if (card.id === activeCardId) {
         L.marker([card.location.latitude, card.location.longitude], {
-          iconActive,
+          icon: iconActive,
           title: card.title,
           alt: card.title,
           zIndexOffset: 1,
@@ -87,6 +75,17 @@ class Map extends React.PureComponent {
     });
   }
 
+  render() {
+    if (this.state.isMount) {
+      this._renderPoints();
+    }
+    return (
+      React.cloneElement(this.props.children, {
+        ref: this._mapRef
+      })
+    );
+  }
+
 }
 
 Map.propTypes = {
@@ -99,7 +98,7 @@ export {Map};
 
 const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
   activeCardId: state.activeCard,
-  points: state.offers,
+  points: state.offersToShow,
 });
 
 export default connect(mapStateToProps, null)(Map);

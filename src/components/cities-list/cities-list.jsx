@@ -6,8 +6,8 @@ const CitiesList = ({city, cities, cityClickHandler}) => {
     <ul className="locations__list tabs__list">
       {cities.map((c, i) => (
         <li className="locations__item" key = {`city-${i}`}>
-          <a className={`locations__item-link tabs__item ${city === c ? `tabs__item--active` : ``}`} href="#">
-            <span onClick = {cityClickHandler}>{c}</span>
+          <a className={`locations__item-link tabs__item ${city.name === c.name ? `tabs__item--active` : ``}`} href="#">
+            <span onClick = {cityClickHandler}>{c.name}</span>
           </a>
         </li>
       ))}
@@ -17,9 +17,9 @@ const CitiesList = ({city, cities, cityClickHandler}) => {
 };
 
 CitiesList.propTypes = {
-  city: PropTypes.string,
-  cities: PropTypes.array,
-  cityClickHandler: PropTypes.func,
+  city: PropTypes.object.isRequired,
+  cities: PropTypes.array.isRequired,
+  cityClickHandler: PropTypes.func.isRequired,
 };
 
 export default CitiesList;

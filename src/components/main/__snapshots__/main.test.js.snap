@@ -40,8 +40,8 @@ exports[`Main correctly renders after relaunch 1`] = `
           <b
             className="places__found"
           >
-            0
-             places to stay in Amsterdam
+            1
+             places to stay in 
           </b>
         </section>
         <div

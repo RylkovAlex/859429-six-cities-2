@@ -5,7 +5,7 @@ import {offerCardPropTypes} from '../../prop-types/prop-types';
 import classNames from 'classnames';
 import {ListType} from '../offers-list/offers-list.jsx';
 
-const OfferCard = ({card, onCardHover, cardType}) => {
+const OfferCard = ({card, onCardHover, cardType = ListType.MainList}) => {
   const {id, isPremium, previewImage, rating, price, type, title, isFavorite} = card;
   const cardClasses = classNames({
     'place-card': true,
@@ -75,8 +75,8 @@ const OfferCard = ({card, onCardHover, cardType}) => {
 };
 
 OfferCard.propTypes = {
-  card: PropTypes.shape(offerCardPropTypes),
-  onCardHover: PropTypes.func,
+  card: PropTypes.shape(offerCardPropTypes).isRequired,
+  onCardHover: PropTypes.func.isRequired,
   cardType: PropTypes.string,
 };
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import OfferPage from './offer-page';
+import {OfferPage} from './offer-page';
 import {offerCardForTests} from '../../prop-types/prop-types';
 
 const copmponentsToMock = {
@@ -25,7 +25,8 @@ it(`OfferPage correctly renders after relaunch`, () => {
       params: {
         id: `0`,
       }
-    }
+    },
+    changeActiveCard: jest.fn(),
   };
 
   const tree = renderer

@@ -1,3 +1,5 @@
+const MAX_CITIES = 6;
+
 export const offerCards = ([
   {
     city: {
@@ -9,8 +11,8 @@ export const offerCards = ([
       }
     },
     id: 1,
-    previewImage: `img/apartment-01.jpg`,
-    images: [`../img/room.jpg`, `../img/apartment-01.jpg`, `../img/apartment-02.jpg`, `../img/apartment-03.jpg`, `../img/studio-01.jpg`, `../img/apartment-01.jpg`],
+    previewImage: `/img/apartment-01.jpg`,
+    images: [`/img/room.jpg`, `/img/apartment-01.jpg`, `/img/apartment-02.jpg`, `/img/apartment-03.jpg`, `/img/studio-01.jpg`, `/img/apartment-01.jpg`],
     title: `Beautiful & luxurious studio at great location`,
     isFavorite: false,
     isPremium: false,
@@ -24,7 +26,7 @@ export const offerCards = ([
       id: 3,
       isPro: true,
       name: `Angelina`,
-      avatarUrl: `../img/avatar-angelina.jpg`,
+      avatarUrl: `/img/avatar-angelina.jpg`,
     },
     description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.`,
     location: {
@@ -43,8 +45,8 @@ export const offerCards = ([
       }
     },
     id: 2,
-    previewImage: `img/apartment-02.jpg`,
-    images: [`../img/room.jpg`, `../img/apartment-01.jpg`, `../img/apartment-02.jpg`, `../img/apartment-03.jpg`, `../img/studio-01.jpg`, `../img/apartment-01.jpg`],
+    previewImage: `/img/apartment-02.jpg`,
+    images: [`/img/room.jpg`, `/img/apartment-01.jpg`, `/img/apartment-02.jpg`, `/img/apartment-03.jpg`, `/img/studio-01.jpg`, `/img/apartment-01.jpg`],
     title: `Beautiful & luxurious studio at great location`,
     isFavorite: false,
     isPremium: true,
@@ -58,7 +60,7 @@ export const offerCards = ([
       id: 3,
       isPro: true,
       name: `Angelina2`,
-      avatarUrl: `../img/avatar-angelina.jpg`,
+      avatarUrl: `/img/avatar-angelina.jpg`,
     },
     description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.`,
     location: {
@@ -77,8 +79,8 @@ export const offerCards = ([
       }
     },
     id: 3,
-    previewImage: `img/apartment-03.jpg`,
-    images: [`../img/room.jpg`, `../img/apartment-01.jpg`, `../img/apartment-02.jpg`, `../img/apartment-03.jpg`, `../img/studio-01.jpg`, `../img/apartment-01.jpg`],
+    previewImage: `/img/apartment-03.jpg`,
+    images: [`/img/room.jpg`, `/img/apartment-01.jpg`, `/img/apartment-02.jpg`, `/img/apartment-03.jpg`, `/img/studio-01.jpg`, `/img/apartment-01.jpg`],
     title: `Beautiful & luxurious studio at great location`,
     isFavorite: true,
     isPremium: true,
@@ -92,7 +94,7 @@ export const offerCards = ([
       id: 3,
       isPro: true,
       name: `Angelina3`,
-      avatarUrl: `../img/avatar-angelina.jpg`,
+      avatarUrl: `/img/avatar-angelina.jpg`,
     },
     description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.`,
     location: {
@@ -111,8 +113,8 @@ export const offerCards = ([
       }
     },
     id: 4,
-    previewImage: `img/apartment-01.jpg`,
-    images: [`../img/room.jpg`, `../img/apartment-01.jpg`, `../img/apartment-02.jpg`, `../img/apartment-03.jpg`, `../img/studio-01.jpg`, `../img/apartment-01.jpg`],
+    previewImage: `/img/apartment-01.jpg`,
+    images: [`/img/room.jpg`, `/img/apartment-01.jpg`, `/img/apartment-02.jpg`, `/img/apartment-03.jpg`, `/img/studio-01.jpg`, `/img/apartment-01.jpg`],
     title: `Beautiful & luxurious studio at great location`,
     isFavorite: false,
     isPremium: true,
@@ -126,7 +128,7 @@ export const offerCards = ([
       id: 3,
       isPro: true,
       name: `Angelina4`,
-      avatarUrl: `../img/avatar-angelina.jpg`,
+      avatarUrl: `/img/avatar-angelina.jpg`,
     },
     description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.`,
     location: {
@@ -145,8 +147,8 @@ export const offerCards = ([
       }
     },
     id: 5,
-    previewImage: `img/apartment-01.jpg`,
-    images: [`../img/room.jpg`, `../img/apartment-01.jpg`, `../img/apartment-02.jpg`, `../img/apartment-03.jpg`, `../img/studio-01.jpg`, `../img/apartment-01.jpg`],
+    previewImage: `/img/apartment-01.jpg`,
+    images: [`/img/room.jpg`, `/img/apartment-01.jpg`, `/img/apartment-02.jpg`, `/img/apartment-03.jpg`, `/img/studio-01.jpg`, `/img/apartment-01.jpg`],
     title: `Beautiful & luxurious studio at great location`,
     isFavorite: false,
     isPremium: true,
@@ -160,7 +162,7 @@ export const offerCards = ([
       id: 3,
       isPro: true,
       name: `Angelina4`,
-      avatarUrl: `../img/avatar-angelina.jpg`,
+      avatarUrl: `/img/avatar-angelina.jpg`,
     },
     description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.`,
     location: {
@@ -179,8 +181,8 @@ export const offerCards = ([
       }
     },
     id: 6,
-    previewImage: `img/apartment-01.jpg`,
-    images: [`../img/room.jpg`, `../img/apartment-01.jpg`, `../img/apartment-02.jpg`, `../img/apartment-03.jpg`, `../img/studio-01.jpg`, `../img/apartment-01.jpg`],
+    previewImage: `/img/apartment-01.jpg`,
+    images: [`/img/room.jpg`, `/img/apartment-01.jpg`, `/img/apartment-02.jpg`, `/img/apartment-03.jpg`, `/img/studio-01.jpg`, `/img/apartment-01.jpg`],
     title: `Beautiful & luxurious studio at great location`,
     isFavorite: false,
     isPremium: true,
@@ -194,7 +196,7 @@ export const offerCards = ([
       id: 3,
       isPro: true,
       name: `Angelina4`,
-      avatarUrl: `../img/avatar-angelina.jpg`,
+      avatarUrl: `/img/avatar-angelina.jpg`,
     },
     description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.`,
     location: {
@@ -205,3 +207,11 @@ export const offerCards = ([
   },
 
 ]);
+
+
+let cities = offerCards.map((offer) => JSON.stringify(offer.city));
+cities = Array.from(new Set(cities));
+cities = (cities.length > MAX_CITIES) ? cities.slice(0, MAX_CITIES) : cities;
+cities = cities.map((city) => JSON.parse(city));
+
+export {cities};
