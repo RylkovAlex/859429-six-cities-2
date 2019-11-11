@@ -5,7 +5,7 @@ export const reviewsMock = [
       id: 4,
       isPro: false,
       name: `Max`,
-      avatarUrl: `img/1.png`
+      avatarUrl: `/img/avatar-max.jpg`
     },
     rating: 4,
     comment: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.`,

@@ -1,19 +1,24 @@
 import React from 'react';
 import L from 'leaflet';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {offerCardPropTypes} from '../../prop-types/prop-types';
 
-export default class Map extends React.PureComponent {
+class Map extends React.PureComponent {
   constructor(props) {
     super(props);
+    this.state = {
+      isMount: false,
+    };
     this._mapRef = React.createRef();
 
-    this._points = props.points || [];
-    this._city = this._points[0].city || `Amsterdam`;
+    this._city = this.props.points[0].city;
     this._cityCoords = [this._city.location.latitude, this._city.location.longitude];
     this._icon = L.icon({
-      iconUrl: `img/pin.svg`,
-      iconSize: [30, 30]
+      iconUrl: `/img/pin.svg`,
+    });
+    this._iconActive = L.icon({
+      iconUrl: `/img/pin-active.svg`,
     });
 
     this._baseMap = L.tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`, {
@@ -27,10 +32,53 @@ export default class Map extends React.PureComponent {
       'Hydda Map': this._hyddaMap,
       'Base Map': this._baseMap,
     });
+  }
 
+  componentDidMount() {
+    this._container = this._mapRef.current;
+    this._map = L.map(this._container, {
+      center: this._cityCoords,
+      zoom: this._city.location.zoom,
+      zoomControl: false,
+      marker: true,
+      layers: [this._baseMap, this._hyddaMap]
+    });
+    this._markerGroup = L.layerGroup().addTo(this._map);
+    this._layers.addTo(this._map);
+    this.setState({isMount: true});
+  }
+
+  _renderPoints() {
+    this._city = this.props.points[0].city;
+    this._cityCoords = [this._city.location.latitude, this._city.location.longitude];
+    this._map.setView(this._cityCoords, this._city.location.zoom);
+    this._markerGroup.clearLayers();
+    const icon = this._icon;
+    const iconActive = this._iconActive;
+    const activeCardId = this.props.activeCardId;
+
+    this.props.points.forEach((card) => {
+      if (card.id === activeCardId) {
+        L.marker([card.location.latitude, card.location.longitude], {
+          icon: iconActive,
+          title: card.title,
+          alt: card.title,
+          zIndexOffset: 1,
+        }).addTo(this._markerGroup);
+      } else {
+        L.marker([card.location.latitude, card.location.longitude], {
+          icon,
+          title: card.title,
+          alt: card.title,
+        }).addTo(this._markerGroup);
+      }
+    });
   }
 
   render() {
+    if (this.state.isMount) {
+      this._renderPoints();
+    }
     return (
       React.cloneElement(this.props.children, {
         ref: this._mapRef
@@ -38,32 +86,19 @@ export default class Map extends React.PureComponent {
     );
   }
 
-  componentDidMount() {
-    const container = this._mapRef.current;
-    const map = L.map(container, {
-      center: this._cityCoords,
-      zoom: this._city.location.zoom,
-      zoomControl: false,
-      marker: true,
-      layers: [this._baseMap, this._hyddaMap]
-    });
-    map.setView(this._cityCoords, this._city.location.zoom);
-
-    this._layers.addTo(map);
-    const icon = this._icon;
-    this._points.forEach((card) => {
-      const cardCoords = [card.location.latitude, card.location.longitude];
-      L.marker(cardCoords, {
-        icon,
-        title: card.title,
-        alt: card.title,
-      }).addTo(map);
-    });
-  }
-
 }
 
 Map.propTypes = {
   points: PropTypes.arrayOf(PropTypes.shape(offerCardPropTypes)),
   children: PropTypes.node.isRequired,
+  activeCardId: PropTypes.number.isRequired,
 };
+
+export {Map};
+
+const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
+  activeCardId: state.activeCard,
+  points: state.offersToShow,
+});
+
+export default connect(mapStateToProps, null)(Map);

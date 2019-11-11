@@ -38,7 +38,7 @@ const ReviewItem = ({review}) => {
 };
 
 ReviewItem.propTypes = {
-  review: PropTypes.shape(reviewPropTypes),
+  review: PropTypes.shape(reviewPropTypes).isRequired,
 };
 
 export default ReviewItem;

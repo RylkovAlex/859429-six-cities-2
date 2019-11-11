@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import Map from './map';
+import {Map} from './map';
 import {offerCardForTests} from '../../prop-types/prop-types';
 import {createNodeMock} from '../../utils/utils';
 
@@ -8,6 +8,7 @@ it(`Map correctly renders after relaunch`, () => {
   const props = {
     points: [offerCardForTests],
     children: <div/>,
+    activeCardId: 0,
   };
 
   const tree = renderer
