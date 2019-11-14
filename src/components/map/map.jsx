@@ -7,6 +7,7 @@ import {offerCardPropTypes} from '../../prop-types/prop-types';
 class Map extends React.PureComponent {
   constructor(props) {
     super(props);
+    // TODO: как здесь можно переписать логику и избавиться от стейта, чтоб не делать отдельный HOC под это дело?
     this.state = {
       isMount: false,
     };
