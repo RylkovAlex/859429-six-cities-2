@@ -1,5 +1,5 @@
 import {CHANGE_CITY, SET_OFFERS_TO_SHOW, SORT_OFFERS_TO_SHOW, CHANGE_ACTIVE_CARD} from "../action-types";
-import {SortingType} from "../../../components/sorting-form/sorting-form.jsx";
+import {SortingType} from "../../../components/hocs/withSortingType/with-sorting-type";
 
 const ActionCreator = {
   changeCity: (city) => ({

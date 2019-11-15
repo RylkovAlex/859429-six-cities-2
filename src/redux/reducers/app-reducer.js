@@ -2,8 +2,6 @@ import {CHANGE_CITY, SET_OFFERS_TO_SHOW, SORT_OFFERS_TO_SHOW, CHANGE_ACTIVE_CARD
 import {offerCards, cities} from "../../mocks/offers";
 import {reviewsMock} from "../../mocks/reviews";
 
-// TODO: сейчас по-умолчанию в appInitialState лежит город, все карточки и карточки для города по-умолчанию, хотя я не уверен, что это правильно - по-идее же appInitialState должен как-то формироваться при первом ответе от сервера, надеюсь в следующей лекции покажут как ...
-
 export const appInitialState = {
   city: {
     name: `Amsterdam`,
