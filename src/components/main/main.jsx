@@ -10,6 +10,7 @@ import Header from '../header/header.jsx';
 import CitiesList from '../cities-list/cities-list.jsx';
 import ActionCreator from '../../redux/actions/action-creator/action-creator.js';
 import SortingForm from '../sorting-form/sorting-form.jsx';
+import MainEmpty from '../main-empty/main-empty.jsx';
 
 const ListType = {
   MainList: `main`,
@@ -25,21 +26,9 @@ const Main = (props) => {
     props.setOffersToShow();
   };
 
-  return (
-    <div className="page page--gray page--main">
-      <Header/>
-
-      <main className="page__main page__main--index">
-        <h1 className="visually-hidden">Cities</h1>
-        <div className="tabs">
-          <section className="locations container">
-            <CitiesList
-              city = {city}
-              cities = {cities}
-              cityClickHandler = {handleCityClick}
-            />
-          </section>
-        </div>
+  const getContentJSX = (offers) => {
+    if (offers.length) {
+      return (
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
@@ -63,6 +52,27 @@ const Main = (props) => {
             </div>
           </div>
         </div>
+      );
+    }
+    return <MainEmpty/>;
+  };
+
+  return (
+    <div className="page page--gray page--main">
+      <Header/>
+
+      <main className="page__main page__main--index">
+        <h1 className="visually-hidden">Cities</h1>
+        <div className="tabs">
+          <section className="locations container">
+            <CitiesList
+              city = {city}
+              cities = {cities}
+              cityClickHandler = {handleCityClick}
+            />
+          </section>
+        </div>
+        {getContentJSX(offersToShow)}
       </main>
     </div>
   );

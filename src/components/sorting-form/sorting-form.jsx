@@ -67,11 +67,12 @@ const mapDispatchToProps = (dispatch) => ({
   sortOffersToShow: (sortType) => dispatch(ActionCreator.sortOffersToShow(sortType)),
 });
 
-// TODO: подскажи как на compose переписать:
+
 export default connect(null, mapDispatchToProps)(withSortingList(withSortingType(SortingForm)));
-// так чё-то не выходит
+
+// TODO: подскажи почему так не работает:
 // export default compose(
-//     connect(null, mapDispatchToProps),
+//     withSortingType(),
 //     withSortingList(),
-//     withSortingType(SortingForm)
-// );
+//     connect(null, mapDispatchToProps)
+// )(SortingForm);
