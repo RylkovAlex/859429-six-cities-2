@@ -1,21 +1,12 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import SortingOptionsList from '../sorting-options-list/sorting-options-list.jsx';
-// import {compose} from 'redux';
-import {connect} from 'react-redux';
-import ActionCreator from '../../redux/actions/action-creator/action-creator.js';
 import PropTypes from 'prop-types';
 import withSortingList from '../hocs/withSortingList/with-sorting-list.js';
-import withSortingType from '../hocs/withSortingType/with-sorting-type.js';
 
-function SortingForm({sortOffersToShow, isListOpen, setListOpen, sortingType, setSortingType}) {
-  useEffect(() => {
-    sortOffersToShow(sortingType);
-  }, [sortingType]);
-
+function SortingForm({isListOpen, setListOpen, sortingType, sortOffers}) {
   const optionClickHandler = (type) => {
     if (type !== sortingType) {
-      sortOffersToShow(sortingType);
-      setSortingType(type);
+      sortOffers(type);
     }
     setListOpen(!isListOpen);
   };
@@ -42,7 +33,7 @@ function SortingForm({sortOffersToShow, isListOpen, setListOpen, sortingType, se
       />
       }
 
-      {/* TODO: зачем этот select и как его использовать?! */}
+      {/* TODO: зачем этот select?! */}
       {/* <select className="places__sorting-type" id="places-sorting">
           <option className="places__option" value="popular">Popular</option>
           <option className="places__option" value="to-high">Price: low to high</option>
@@ -54,25 +45,12 @@ function SortingForm({sortOffersToShow, isListOpen, setListOpen, sortingType, se
 }
 
 SortingForm.propTypes = {
-  sortOffersToShow: PropTypes.func.isRequired,
-  isListOpen: PropTypes.bool,
-  setListOpen: PropTypes.func,
-  sortingType: PropTypes.string,
-  setSortingType: PropTypes.func,
+  sortOffers: PropTypes.func.isRequired,
+  isListOpen: PropTypes.bool.isRequired,
+  setListOpen: PropTypes.func.isRequired,
+  sortingType: PropTypes.string.isRequired,
 };
 
 export {SortingForm};
 
-const mapDispatchToProps = (dispatch) => ({
-  sortOffersToShow: (sortType) => dispatch(ActionCreator.sortOffersToShow(sortType)),
-});
-
-
-export default connect(null, mapDispatchToProps)(withSortingList(withSortingType(SortingForm)));
-
-// TODO: подскажи почему так не работает:
-// export default compose(
-//     withSortingType(),
-//     withSortingList(),
-//     connect(null, mapDispatchToProps)
-// )(SortingForm);
+export default withSortingList(SortingForm);

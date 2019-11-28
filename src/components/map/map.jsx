@@ -3,6 +3,7 @@ import L from 'leaflet';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {offerCardPropTypes} from '../../prop-types/prop-types';
+import {getOffersToShow} from '../../redux/selectors/selectors';
 
 class Map extends React.PureComponent {
   constructor(props) {
@@ -99,7 +100,7 @@ export {Map};
 
 const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
   activeCardId: state.activeCard,
-  points: state.offersToShow,
+  points: getOffersToShow(state),
 });
 
 export default connect(mapStateToProps, null)(Map);

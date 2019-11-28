@@ -11,6 +11,7 @@ import CitiesList from '../cities-list/cities-list.jsx';
 import ActionCreator from '../../redux/actions/action-creator/action-creator.js';
 import SortingForm from '../sorting-form/sorting-form.jsx';
 import MainEmpty from '../main-empty/main-empty.jsx';
+import {getOffersToShow, getCities} from '../../redux/selectors/selectors.js';
 
 const ListType = {
   MainList: `main`,
@@ -18,12 +19,11 @@ const ListType = {
 };
 
 const Main = (props) => {
-  const {offersToShow, cities, city} = props;
+  const {offersToShow, cities, city, sortedOffers, sortingType, sortOffers} = props;
   const handleCardHover = props.changeActiveCard;
   const handleCityClick = (evt) => {
     evt.preventDefault();
     props.setCity(props.cities.find((c) => c.name === evt.target.textContent));
-    props.setOffersToShow();
   };
 
   const getContentJSX = (offers) => {
@@ -35,14 +35,16 @@ const Main = (props) => {
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{offersToShow.length} places to stay in {city.name}</b>
               {/* СОРОТИРОВКА */}
-              <SortingForm/>
+              <SortingForm
+                sortingType = {sortingType}
+                sortOffers = {sortOffers}
+              />
               {/* ПРЕДЛОЖЕНИЯ ПО АРЕНДЕ */}
               <OffersList
-                offerCards = {offersToShow}
+                offerCards = {sortedOffers}
                 listType = {ListType.MainList}
                 onCardHover = {handleCardHover}
-              >
-              </OffersList>
+              />
             </section>
             <div className="cities__right-section">
               <Map>
@@ -81,22 +83,23 @@ const Main = (props) => {
 Main.propTypes = {
   cities: PropTypes.array.isRequired,
   setCity: PropTypes.func.isRequired,
-  setOffersToShow: PropTypes.func.isRequired,
   offersToShow: PropTypes.array.isRequired,
   city: PropTypes.object.isRequired,
   changeActiveCard: PropTypes.func.isRequired,
+  sortedOffers: PropTypes.array.isRequired,
+  sortingType: PropTypes.string.isRequired,
+  sortOffers: PropTypes.func.isRequired,
 };
 
 export {Main};
 
 const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
   city: state.city,
-  cities: state.cities,
-  offersToShow: state.offersToShow,
+  cities: getCities(state),
+  offersToShow: getOffersToShow(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setOffersToShow: () => dispatch(ActionCreator.setOffersToShow()),
   setCity: (city) => dispatch(ActionCreator.changeCity(city)),
   changeActiveCard: (cardId) => dispatch(ActionCreator.changeActiveCard(cardId)),
 });

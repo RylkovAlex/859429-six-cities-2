@@ -1,5 +1,3 @@
-const MAX_CITIES = 6;
-
 export const offerCards = ([
   {
     city: {
@@ -207,11 +205,3 @@ export const offerCards = ([
   },
 
 ]);
-
-
-let cities = offerCards.map((offer) => JSON.stringify(offer.city));
-cities = Array.from(new Set(cities));
-cities = (cities.length > MAX_CITIES) ? cities.slice(0, MAX_CITIES) : cities;
-cities = cities.map((city) => JSON.parse(city));
-
-export {cities};
