@@ -13,10 +13,15 @@ export const getOffersToShow = createSelector(
 export const getCities = createSelector(
     [getAllOffers],
     (allOffers) => {
-      let cities = allOffers.map((offer) => JSON.stringify(offer.city));
-      cities = Array.from(new Set(cities));
-      cities = (cities.length > MAX_CITIES) ? cities.slice(0, MAX_CITIES) : cities;
-      cities = cities.map((city) => JSON.parse(city));
-      return cities;
+      // TODO: break reduce if acc.names.length === MAX_CITIES
+      const cities = allOffers.reduce((acc, offer) => {
+        if (acc.names.includes(offer.city.name) || acc.names.length === MAX_CITIES) {
+          return acc;
+        }
+        acc.names.push(offer.city.name);
+        acc.cities.push(offer.city);
+        return acc;
+      }, {names: [], cities: []});
+      return cities.cities;
     }
 );

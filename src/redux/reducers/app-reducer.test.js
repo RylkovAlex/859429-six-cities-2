@@ -1,5 +1,8 @@
 import appReducer, {appInitialState} from "./app-reducer";
-import {CHANGE_CITY, SET_OFFERS_TO_SHOW} from "../actions/action-types";
+import {CHANGE_CITY, LOAD_OFFERS_SUCCESS} from "../actions/action-types";
+import {createAPI} from "../../api/api";
+import MockAdapter from "axios-mock-adapter";
+import {Operation} from "../actions/action-creator/action-creator";
 
 const offer1 = {
   city: {
@@ -71,6 +74,86 @@ const offer2 = {
   },
 };
 
+const apiResponse = [
+  {
+    id: 1,
+    city: {
+      name: `Amsterdam`,
+      location: {
+        latitude: 52.370216,
+        longitude: 4.895168,
+        zoom: 10
+      }
+    },
+    // eslint-disable-next-line camelcase
+    preview_image: `img/1.png`,
+    images: [`img/1.png`, `img/2.png`],
+    title: `Beautiful & luxurious studio at great location`,
+    // eslint-disable-next-line camelcase
+    is_favorite: false,
+    // eslint-disable-next-line camelcase
+    is_premium: false,
+    rating: 4.8,
+    type: `apartment`,
+    bedrooms: 3,
+    // eslint-disable-next-line camelcase
+    max_adults: 4,
+    price: 120,
+    goods: [`Heating`, `Kitchen`, `Cable TV`, `Washing machine`, `Coffee machine`, `Dishwasher`],
+    host: {
+      id: 3,
+      // eslint-disable-next-line camelcase
+      is_pro: true,
+      name: `Angelina`,
+      // eslint-disable-next-line camelcase
+      avatar_url: `img/1.png`
+    },
+    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.`,
+    location: {
+      latitude: 52.35514938496378,
+      longitude: 4.673877537499948,
+      zoom: 8
+    }
+  }
+];
+
+const apiOffers = [
+  {
+    id: 1,
+    city: {
+      name: `Amsterdam`,
+      location: {
+        latitude: 52.370216,
+        longitude: 4.895168,
+        zoom: 10
+      }
+    },
+    previewImage: `img/1.png`,
+    images: [`img/1.png`, `img/2.png`],
+    title: `Beautiful & luxurious studio at great location`,
+    isFavorite: false,
+    isPremium: false,
+    rating: 4.8,
+    type: `apartment`,
+    bedrooms: 3,
+    maxAdults: 4,
+    price: 120,
+    goods: [`Heating`, `Kitchen`, `Cable TV`, `Washing machine`, `Coffee machine`, `Dishwasher`],
+    host: {
+      id: 3,
+      isPro: true,
+      name: `Angelina`,
+      avatarUrl: `img/1.png`
+    },
+    description: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.`,
+    location: {
+      latitude: 52.35514938496378,
+      longitude: 4.673877537499948,
+      zoom: 8
+    }
+  }
+];
+
 describe(`appReducer works correctly`, () => {
   it(`reducer without additional parameters should return initial state`, () => {
     expect(appReducer(undefined, {})).toEqual(appInitialState);
@@ -78,7 +161,7 @@ describe(`appReducer works correctly`, () => {
   it(`appReducer should change current city by a given value`, () => {
     expect(appReducer({
       city: {},
-      offers: [],
+      allOffers: [],
     }, {
       type: CHANGE_CITY,
       city: {
@@ -88,25 +171,40 @@ describe(`appReducer works correctly`, () => {
       city: {
         name: `Paris`,
       },
-      offers: [],
+      allOffers: [],
     });
   });
 
-  it(`appReducer should correctly change offersToShow`, () => {
+  it(`appReducer should correctly set allOffers after fetching them`, () => {
     expect(appReducer({
-      city: {
-        name: `Paris`,
-      },
-      allOffers: [offer1, offer2],
-      offersToShow: [],
+      allOffers: [],
+      isAppReady: false,
     }, {
-      type: SET_OFFERS_TO_SHOW,
+      type: LOAD_OFFERS_SUCCESS,
+      offers: [offer1, offer2]
     })).toEqual({
-      city: {
-        name: `Paris`,
-      },
       allOffers: [offer1, offer2],
-      offersToShow: [offer2],
+      isAppReady: true,
     });
+  });
+
+  it(`Should make a correct API call to /hotels`, function () {
+    const dispatch = jest.fn();
+    const api = createAPI(dispatch);
+    const apiMock = new MockAdapter(api);
+    const offersLoader = Operation.loadOffers();
+
+    apiMock
+      .onGet(`/hotels`)
+      .reply(200, apiResponse);
+
+    return offersLoader(dispatch, jest.fn(), api)
+      .then(() => {
+        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenNthCalledWith(1, {
+          type: LOAD_OFFERS_SUCCESS,
+          offers: apiOffers,
+        });
+      });
   });
 });

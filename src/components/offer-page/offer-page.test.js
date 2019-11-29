@@ -10,11 +10,12 @@ const copmponentsToMock = {
   Map: `../map/map.jsx`,
   OfferCard: `../offer-card/offer-card.jsx`,
 };
-// TODO: не пойму почему не работает:
-Object.values(copmponentsToMock).forEach((path) => {
-  jest.mock(path, () => jest.fn().mockReturnValue(null));
-});
-// приходится повторять:
+
+// TODO: не работает
+const modules = Object.values(copmponentsToMock);
+for (let i = 0; i < modules.length; i++) {
+  jest.mock(modules[i], () => jest.fn().mockReturnValue(null));
+}
 jest.mock(`../map/map.jsx`, () => jest.fn().mockReturnValue(null));
 
 it(`OfferPage correctly renders after relaunch`, () => {

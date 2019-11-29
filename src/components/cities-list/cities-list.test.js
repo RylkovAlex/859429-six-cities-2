@@ -1,7 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import CitiesList from './cities-list';
-import {cities} from '../../mocks/offers';
 
 it(`OfferPage correctly renders after relaunch`, () => {
   const props = {
@@ -13,7 +12,24 @@ it(`OfferPage correctly renders after relaunch`, () => {
         zoom: 10
       }
     },
-    cities,
+    cities: [
+      {
+        name: `1`,
+        location: {
+          latitude: 1,
+          longitude: 2,
+          zoom: 3
+        }
+      },
+      {
+        name: `2`,
+        location: {
+          latitude: 1,
+          longitude: 2,
+          zoom: 3
+        }
+      }
+    ],
     cityClickHandler: jest.fn(),
   };
 
