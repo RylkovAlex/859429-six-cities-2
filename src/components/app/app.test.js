@@ -8,11 +8,16 @@ jest.mock(`../offer-page/offer-page.jsx`, () => jest.fn().mockReturnValue(null))
 jest.mock(`../main/main.jsx`, () => jest.fn().mockReturnValue(null));
 
 it(`App correctly renders after relaunch`, () => {
+  const props = {
+    isAppReady: true,
+    offersToShow: [],
+    loadOffers: jest.fn(),
+  };
 
   const tree = renderer
     .create(
         <MemoryRouter>
-          <App/>
+          <App {...props}/>
         </MemoryRouter>,
         {createNodeMock}
     )

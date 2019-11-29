@@ -13,6 +13,9 @@ jest.mock(`../sorting-form/sorting-form.jsx`, () => jest.fn().mockReturnValue(nu
 it(`Main correctly renders after relaunch`, () => {
   const props = {
     offersToShow: [offerCardForTests],
+    sortedOffers: [offerCardForTests],
+    sortingType: ``,
+    sortOffers: jest.fn(),
     cities: [],
     setCity: jest.fn(),
     setOffersToShow: jest.fn(),
