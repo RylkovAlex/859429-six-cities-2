@@ -1,4 +1,4 @@
-import {CHANGE_CITY, CHANGE_ACTIVE_CARD, LOAD_OFFERS_SUCCESS} from "../actions/action-types";
+import {CHANGE_CITY, CHANGE_ACTIVE_CARD, LOAD_OFFERS_SUCCESS, LOGIN_SUCCESS} from "../actions/action-types";
 import {reviewsMock} from "../../mocks/reviews";
 
 export const appInitialState = {
@@ -11,8 +11,10 @@ export const appInitialState = {
     }
   },
   allOffers: [],
+  user: null,
   activeCard: -1,
   isAppReady: false,
+  isAuthorizationRequired: true,
   reviews: reviewsMock, // пока здесь, потом видимо нужно будет их запрашивать с сервера для конкретной карточки
 };
 
@@ -27,6 +29,10 @@ const appReducer = (state = appInitialState, action) => {
     case LOAD_OFFERS_SUCCESS: return Object.assign({}, state, {
       isAppReady: true,
       allOffers: action.offers,
+    });
+    case LOGIN_SUCCESS: return Object.assign({}, state, {
+      isAuthorizationRequired: false,
+      user: action.user,
     });
   }
   return state;
