@@ -68,6 +68,7 @@ const SignIn = ({setInput, inputValues, logIn}) => {
 SignIn.propTypes = {
   setInput: PropTypes.func.isRequired,
   inputValues: PropTypes.object.isRequired,
+  logIn: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
