@@ -8,10 +8,11 @@ import OfferPage from '../offer-page/offer-page.jsx';
 import withSortingState from '../hocs/withSortingState/with-sorting-state.js';
 import {getOffersToShow} from '../../redux/selectors/selectors.js';
 import {Operation} from '../../redux/actions/action-creator/action-creator.js';
+import SignIn from '../sign-in/sign-in.jsx';
 
 const MainWithSortedOffers = withSortingState(Main);
 
-const App = ({offersToShow, isAppReady, loadOffers}) => {
+const App = ({offersToShow, isAppReady, loadOffers, isAuthorizationRequired}) => {
   useEffect(() => {
     loadOffers();
   }, []);
@@ -19,7 +20,12 @@ const App = ({offersToShow, isAppReady, loadOffers}) => {
   if (isAppReady) {
     return (
       <Switch>
-        <Route path = "/" exact render = {() => <MainWithSortedOffers offersToSort = {offersToShow}/>}/>
+        <Route path = "/" exact render = {() => {
+          if (isAuthorizationRequired) {
+            return <SignIn/>;
+          }
+          return <MainWithSortedOffers offersToSort = {offersToShow}/>;
+        }}/>
         <Route path = "/offer/:id" component = {OfferPage}/>
         <Redirect to = "/"/>
       </Switch>
@@ -29,6 +35,7 @@ const App = ({offersToShow, isAppReady, loadOffers}) => {
 };
 
 App.propTypes = {
+  isAuthorizationRequired: PropTypes.bool.isRequired,
   offersToShow: PropTypes.array.isRequired,
   isAppReady: PropTypes.bool.isRequired,
   loadOffers: PropTypes.func.isRequired,
@@ -37,6 +44,7 @@ App.propTypes = {
 export {App};
 
 const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
+  isAuthorizationRequired: state.isAuthorizationRequired,
   isAppReady: state.isAppReady,
   offerCards: state.allOffers,
   offersToShow: getOffersToShow(state),
