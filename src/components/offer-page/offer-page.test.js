@@ -9,6 +9,7 @@ import {offerCardForTests} from '../../prop-types/prop-types';
   Header: `../header/header.jsx`,
   Map: `../map/map.jsx`,
   OfferCard: `../offer-card/offer-card.jsx`,
+  ReviewForm: `../review-form/review-form.jsx`,
 }; */
 
 // TODO: не работает..
@@ -19,6 +20,7 @@ for (let i = 0; i < modules.length; i++) {
 
 jest.mock(`../map/map.jsx`, () => jest.fn().mockReturnValue(null));
 jest.mock(`../header/header.jsx`, () => jest.fn().mockReturnValue(null));
+jest.mock(`../review-form/review-form.jsx`, () => jest.fn().mockReturnValue(null));
 
 it(`OfferPage correctly renders after relaunch`, () => {
   const props = {
@@ -30,6 +32,7 @@ it(`OfferPage correctly renders after relaunch`, () => {
       }
     },
     changeActiveCard: jest.fn(),
+    isAuthorized: true,
   };
 
   const tree = renderer
