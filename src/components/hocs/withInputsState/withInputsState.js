@@ -1,26 +1,38 @@
-import React from 'react';
+import React from "react";
 
-export const validator = {
-  EMAIL: `email`,
-  REQUIED: `requied`,
-};
-
-const validate = (_validator, value) => {
-  switch (_validator) {
-    case `email`:
-      return (/[-.\w]+@([\w-]+\.)+[\w-]+/g).test(value);
-    case `requied`:
-      return !!value;
-    default:
-      throw new Error(`unknown validator`);
+const validate = (validation, value) => {
+  if (!validation) {
+    return true;
   }
+
+  let isValid = true;
+
+  if (validation.required) {
+    isValid = value.trim() !== `` && isValid;
+  }
+
+  if (validation.email) {
+    isValid = /[-.\w]+@([\w-]+\.)+[\w-]+/g.test(value) && isValid;
+  }
+
+  if (validation.minLength) {
+    isValid = value.length >= validation.minLength && isValid;
+  }
+
+  if (validation.maxLength) {
+    isValid = value.length <= validation.maxLength && isValid;
+  }
+
+  return isValid;
 };
 
-const withInputsState = (Component, inputs, validation) => {
+const withInputsState = (Component, inputs, validation = {}) => {
   class WithInputsState extends React.PureComponent {
     constructor(props) {
       super(props);
-      this.state = {};
+      this.state = {
+        isFormValid: false
+      };
       this.setInput = this.setInput.bind(this);
     }
 
@@ -32,29 +44,45 @@ const withInputsState = (Component, inputs, validation) => {
       }, this);
     }
 
+    checkForm() {
+      this.setState((prevState) => ({
+        isFormValid: inputs.every((inputName) => !!prevState[inputName])
+      }));
+    }
+
     setInput(inputName, value) {
-      if (validation[inputName] === undefined) {
+      if (!validation[inputName]) {
         this.setState({
-          [inputName]: value,
+          [inputName]: value
         });
+        this.checkForm();
         return;
-      } else if (validation[inputName].every((val) => validate(val, value))) {
+      } else if (validate(validation[inputName], value)) {
         this.setState({
-          [inputName]: value,
+          [inputName]: value
         });
+        this.checkForm();
         return;
       }
       this.setState({
-        [inputName]: false,
+        [inputName]: false
       });
+      this.checkForm();
     }
 
     render() {
-      return <Component
-        {...this.props}
-        inputValues = {this.state}
-        setInput = {this.setInput}
-      />;
+      const inputValues = {};
+      inputs.forEach((inputName) => {
+        inputValues[inputName] = this.state[inputName];
+      });
+      return (
+        <Component
+          {...this.props}
+          inputValues={inputValues}
+          isFormValid={this.state.isFormValid}
+          setInput={this.setInput}
+        />
+      );
     }
   }
 
