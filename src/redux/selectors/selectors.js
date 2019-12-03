@@ -25,3 +25,30 @@ export const getCities = createSelector(
       return cities.cities;
     }
 );
+
+export const getNearbyCards = (cardId, state) => {
+  const cityName = state.city.name;
+  const allOffers = state.allOffers;
+  return allOffers.filter(
+      (offer) => offer.city.name === cityName && offer.id !== cardId
+  );
+};
+
+export const getFavorites = createSelector(
+    [getAllOffers, getCities],
+    (allOffers, allCities) => {
+      const favorites = {};
+      allCities.forEach((city) => {
+        favorites[city.name] = [];
+      });
+      allOffers.forEach((offer) => {
+        if (offer.isFavorite) {
+          favorites[offer.city.name].push(offer);
+        }
+      });
+      return Object.entries(favorites).map((group) => ({
+        city: group[0],
+        hotels: group[1],
+      }));
+    }
+);

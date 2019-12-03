@@ -1,5 +1,5 @@
 import appReducer, {appInitialState} from "./app-reducer";
-import {CHANGE_CITY, LOAD_OFFERS_SUCCESS} from "../actions/action-types";
+import {CHANGE_CITY, LOAD_OFFERS_SUCCESS, FETCH_SUCCESS, FETCH_START} from "../actions/action-types";
 import {createAPI} from "../../api/api";
 import MockAdapter from "axios-mock-adapter";
 import {Operation} from "../actions/action-creator/action-creator";
@@ -189,8 +189,9 @@ describe(`appReducer works correctly`, () => {
   });
 
   it(`Should make a correct API call to /hotels`, function () {
+    const loginFail = jest.fn();
     const dispatch = jest.fn();
-    const api = createAPI(dispatch);
+    const api = createAPI(loginFail, dispatch);
     const apiMock = new MockAdapter(api);
     const offersLoader = Operation.loadOffers();
 
@@ -200,8 +201,14 @@ describe(`appReducer works correctly`, () => {
 
     return offersLoader(dispatch, jest.fn(), api)
       .then(() => {
-        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenCalledTimes(3);
         expect(dispatch).toHaveBeenNthCalledWith(1, {
+          type: FETCH_START,
+        });
+        expect(dispatch).toHaveBeenNthCalledWith(2, {
+          type: FETCH_SUCCESS,
+        });
+        expect(dispatch).toHaveBeenNthCalledWith(3, {
           type: LOAD_OFFERS_SUCCESS,
           offers: apiOffers,
         });

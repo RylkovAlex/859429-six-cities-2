@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PlaceCard correctly renders after relaunch 1`] = `
+exports[`OfferCard correctly renders after relaunch 1`] = `
 <article
   className="place-card cities__place-card"
   onMouseEnter={[Function]}
@@ -10,14 +10,16 @@ exports[`PlaceCard correctly renders after relaunch 1`] = `
     className="place-card__image-wrapper cities__image-wrapper"
   >
     <a
-      href="#"
+      exact="true"
+      href="/offer/0"
+      onClick={[Function]}
     >
       <img
         alt="Place image"
         className="place-card__image"
-        height="200"
+        height={200}
         src=""
-        width="260"
+        width={260}
       />
     </a>
   </div>
@@ -44,6 +46,8 @@ exports[`PlaceCard correctly renders after relaunch 1`] = `
       </div>
       <button
         className="place-card__bookmark-button button"
+        disabled={false}
+        onClick={[Function]}
         type="button"
       >
         <svg

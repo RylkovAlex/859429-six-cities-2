@@ -1,4 +1,4 @@
-import {CHANGE_CITY, CHANGE_ACTIVE_CARD, LOAD_OFFERS_SUCCESS, LOGIN_SUCCESS, SEND_REVIEW_START, SEND_REVIEW_SUCCESS} from "../action-types";
+import {CHANGE_CITY, CHANGE_ACTIVE_CARD, LOAD_OFFERS_SUCCESS, LOGIN_SUCCESS, SEND_REVIEW_START, SEND_REVIEW_SUCCESS, POST_FAVORITE_SUCCESS, FETCH_START, FETCH_SUCCESS, FETCH_ERROR} from "../action-types";
 import {offerAdapter} from "../../../mocks/offers";
 
 const ActionCreator = {
@@ -29,6 +29,22 @@ const ActionCreator = {
   sendReviewSuccess: () => ({
     type: SEND_REVIEW_SUCCESS,
   }),
+
+  postFavoriteSuccess: (hotelId, status) => ({
+    type: POST_FAVORITE_SUCCESS,
+    payload: {id: hotelId, status}
+  }),
+
+  fetchStart: () => ({
+    type: FETCH_START,
+  }),
+  fetchSuccess: () => ({
+    type: FETCH_SUCCESS,
+  }),
+  fetchError: (error) => ({
+    type: FETCH_ERROR,
+    error,
+  }),
 };
 
 export const Operation = {
@@ -39,7 +55,7 @@ export const Operation = {
     });
   },
 
-  fetchAuthData: (authData) => (dispatch, getState, api) => {
+  sendAuthData: (authData) => (dispatch, getState, api) => {
     return api.post(`/login`, authData).then((response) => {
       dispatch(ActionCreator.loginSuccess(response.data));
     });
@@ -50,7 +66,13 @@ export const Operation = {
     return api.post(`/comments/${hotelId}`, review).then(() => {
       dispatch(ActionCreator.sendReviewSuccess());
     });
-  }
+  },
+
+  postFavorite: (hotelId, status) => (dispatch, getState, api) => {
+    return api.post(`favorite/${hotelId}/${status ? 1 : 0}`).then(() => {
+      dispatch(ActionCreator.postFavoriteSuccess(hotelId, status));
+    });
+  },
 };
 
 export default ActionCreator;

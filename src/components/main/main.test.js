@@ -20,6 +20,7 @@ it(`Main correctly renders after relaunch`, () => {
     setCity: jest.fn(),
     setOffersToShow: jest.fn(),
     changeActiveCard: jest.fn(),
+    postFavorite: jest.fn(),
     city: {},
   };
 

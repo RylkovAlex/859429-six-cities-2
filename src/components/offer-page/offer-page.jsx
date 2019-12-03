@@ -10,21 +10,21 @@ import OffersList, {ListType} from "../offers-list/offers-list.jsx";
 import ReviewsList from "../reviews-list/reviews-list.jsx";
 import Header from "../header/header.jsx";
 import Map from "../map/map.jsx";
-import ActionCreator from "../../redux/actions/action-creator/action-creator";
+import ActionCreator, {Operation} from "../../redux/actions/action-creator/action-creator";
 import ReviewForm from "../review-form/review-form.jsx";
+import {getNearbyCards} from "../../redux/selectors/selectors";
 
 const OfferPage = (props) => {
-  const {reviews, offers, isAuthorized, changeActiveCard} = props;
+  const {reviews, offers, isAuthorized, changeActiveCard, postFavorite, isFetching, nearbyCards} = props;
   const hotelId = +props.match.params.id;
   const card = offers.find((offer) => +offer.id === hotelId);
 
-  const nearbyCards = offers.filter(
-      (offer) => offer.city.name === card.city.name && offer.id !== card.id
-  );
   const {
+    id,
     images,
     title,
     isPremium,
+    isFavorite,
     rating,
     type,
     bedrooms,
@@ -69,11 +69,13 @@ const OfferPage = (props) => {
               <div className="property__name-wrapper">
                 <h1 className="property__name">{title}</h1>
                 <button
-                  className="property__bookmark-button button"
+                  className={`property__bookmark-button button ${isFavorite ? `place-card__bookmark-button--active` : ``}`}
                   type="button"
+                  disabled = {isFetching}
+                  onClick = {() => postFavorite(id, !isFavorite)}
                 >
                   <svg
-                    className="property__bookmark-icon"
+                    className="property__bookmark-icon place-card__bookmark-icon"
                     width="31"
                     height="33"
                   >
@@ -167,7 +169,8 @@ const OfferPage = (props) => {
             <OffersList
               offerCards={nearbyCards}
               listType={ListType.NearbyList}
-              onCardHover={changeActiveCard}
+              handleCardHover={changeActiveCard}
+              handleBookmarkClick = {postFavorite}
             ></OffersList>
           </section>
         </div>
@@ -178,6 +181,7 @@ const OfferPage = (props) => {
 
 OfferPage.propTypes = {
   offers: PropTypes.arrayOf(PropTypes.shape(offerCardPropTypes)).isRequired,
+  nearbyCards: PropTypes.arrayOf(PropTypes.shape(offerCardPropTypes)),
   reviews: PropTypes.arrayOf(PropTypes.shape(reviewPropTypes)).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -185,20 +189,25 @@ OfferPage.propTypes = {
     })
   }).isRequired,
   changeActiveCard: PropTypes.func.isRequired,
-  isAuthorized: PropTypes.bool
+  postFavorite: PropTypes.func.isRequired,
+  isAuthorized: PropTypes.bool,
+  isFetching: PropTypes.bool,
 };
 
 export {OfferPage};
 
 const mapStateToProps = (state, ownProps) =>
   Object.assign({}, ownProps, {
+    nearbyCards: getNearbyCards(ownProps.match.params.id, state),
     offers: state.allOffers,
     reviews: state.reviews,
     isAuthorized: !!state.user,
+    isFetching: state. isFetching,
   });
 
 const mapDispatchToProps = (dispatch) => ({
-  changeActiveCard: (cardId) => dispatch(ActionCreator.changeActiveCard(cardId))
+  changeActiveCard: (cardId) => dispatch(ActionCreator.changeActiveCard(cardId)),
+  postFavorite: (cardId, status) => dispatch(Operation.postFavorite(cardId, status)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(OfferPage);
