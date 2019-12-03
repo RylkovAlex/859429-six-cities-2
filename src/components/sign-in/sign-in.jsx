@@ -1,12 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {Link, Redirect} from 'react-router-dom';
 import {connect} from "react-redux";
 
 import Header from "../header/header.jsx";
 import withInputsState from "../hocs/withInputsState/withInputsState";
 import {Operation} from "../../redux/actions/action-creator/action-creator.js";
 
-const SignIn = ({setInput, inputValues, logIn}) => {
+const SignIn = ({setInput, inputValues, logIn, user}) => {
+  if (user) {
+    return <Redirect to="/"/>;
+  }
   return (
     <div className="page page--gray page--login">
       <Header />
@@ -52,9 +56,9 @@ const SignIn = ({setInput, inputValues, logIn}) => {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#">
+              <Link to="/" className="locations__item-link" href="#">
                 <span>Amsterdam</span>
-              </a>
+              </Link>
             </div>
           </section>
         </div>
@@ -65,18 +69,23 @@ const SignIn = ({setInput, inputValues, logIn}) => {
 
 SignIn.propTypes = {
   setInput: PropTypes.func.isRequired,
+  user: PropTypes.object,
   inputValues: PropTypes.object.isRequired,
   logIn: PropTypes.func.isRequired
 };
 
 export {SignIn};
 
+const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
+  user: state.user,
+});
+
 const mapDispatchToProps = (dispatch) => ({
-  logIn: (authData) => dispatch(Operation.fetchAuthData(authData))
+  logIn: (authData) => dispatch(Operation.sendAuthData(authData))
 });
 
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(
     withInputsState(SignIn, [`email`, `password`], {

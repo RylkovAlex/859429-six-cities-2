@@ -6,11 +6,15 @@ import {createStore, applyMiddleware, compose} from 'redux';
 import {Provider} from 'react-redux';
 
 import App from './components/app/app.jsx';
-import {BrowserRouter} from 'react-router-dom';
+import {Router} from 'react-router-dom';
 import appReducer from './redux/reducers/app-reducer.js';
 import {createAPI} from './api/api.js';
+import history from './browser-history/browser-history.js';
 
-const api = createAPI((...args) => store.dispatch(...args));
+const onLoginFail = () => {
+  history.push(`/login`);
+};
+const api = createAPI(onLoginFail, (...args) => store.dispatch(...args));
 
 const composeEnhancers =
   typeof window === `object` &&
@@ -27,9 +31,9 @@ const store = createStore(appReducer, enhancer);
 
 const app = (
   <Provider store = {store}>
-    <BrowserRouter>
+    <Router history={history}>
       <App/>
-    </BrowserRouter>
+    </Router>
   </Provider>
 );
 

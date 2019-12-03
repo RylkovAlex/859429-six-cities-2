@@ -8,7 +8,7 @@ import OffersList from '../offers-list/offers-list.jsx';
 import Map from '../map/map.jsx';
 import Header from '../header/header.jsx';
 import CitiesList from '../cities-list/cities-list.jsx';
-import ActionCreator from '../../redux/actions/action-creator/action-creator.js';
+import ActionCreator, {Operation} from '../../redux/actions/action-creator/action-creator.js';
 import SortingForm from '../sorting-form/sorting-form.jsx';
 import MainEmpty from '../main-empty/main-empty.jsx';
 import {getOffersToShow, getCities} from '../../redux/selectors/selectors.js';
@@ -19,7 +19,7 @@ const ListType = {
 };
 
 const Main = (props) => {
-  const {offersToShow, cities, city, sortedOffers, sortingType, sortOffers} = props;
+  const {offersToShow, cities, city, sortedOffers, sortingType, sortOffers, postFavorite} = props;
   const handleCardHover = props.changeActiveCard;
   const handleCityClick = (evt) => {
     evt.preventDefault();
@@ -43,7 +43,8 @@ const Main = (props) => {
               <OffersList
                 offerCards = {sortedOffers}
                 listType = {ListType.MainList}
-                onCardHover = {handleCardHover}
+                handleCardHover = {handleCardHover}
+                handleBookmarkClick = {postFavorite}
               />
             </section>
             <div className="cities__right-section">
@@ -89,6 +90,7 @@ Main.propTypes = {
   sortedOffers: PropTypes.array.isRequired,
   sortingType: PropTypes.string.isRequired,
   sortOffers: PropTypes.func.isRequired,
+  postFavorite: PropTypes.func.isRequired,
 };
 
 export {Main};
@@ -102,6 +104,7 @@ const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
 const mapDispatchToProps = (dispatch) => ({
   setCity: (city) => dispatch(ActionCreator.changeCity(city)),
   changeActiveCard: (cardId) => dispatch(ActionCreator.changeActiveCard(cardId)),
+  postFavorite: (cardId, status) => dispatch(Operation.postFavorite(cardId, status)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

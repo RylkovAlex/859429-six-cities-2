@@ -21,6 +21,14 @@ for (let i = 0; i < modules.length; i++) {
 jest.mock(`../map/map.jsx`, () => jest.fn().mockReturnValue(null));
 jest.mock(`../header/header.jsx`, () => jest.fn().mockReturnValue(null));
 jest.mock(`../review-form/review-form.jsx`, () => jest.fn().mockReturnValue(null));
+jest.mock(`../offers-list/offers-list.jsx`, () => ({
+  __esModule: true,
+  ListType: {
+    NearbyList: ``
+  },
+  OfferList: () => null,
+  default: () => null,
+}));
 
 it(`OfferPage correctly renders after relaunch`, () => {
   const props = {
@@ -32,6 +40,7 @@ it(`OfferPage correctly renders after relaunch`, () => {
       }
     },
     changeActiveCard: jest.fn(),
+    postFavorite: jest.fn(),
     isAuthorized: true,
   };
 
