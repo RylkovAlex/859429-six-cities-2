@@ -1,53 +1,87 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
-import {offerCardPropTypes} from '../../prop-types/prop-types';
-import classNames from 'classnames';
-import {ListType} from '../offers-list/offers-list.jsx';
+import React from "react";
+import {connect} from "react-redux";
+import PropTypes from "prop-types";
+import {Link} from "react-router-dom";
+import {offerCardPropTypes} from "../../prop-types/prop-types";
+import classNames from "classnames";
+import {ListType} from "../offers-list/offers-list.jsx";
+import {firstToUpperCase} from "../../utils/utils";
 
-const OfferCard = ({card, onCardHover, cardType = ListType.MainList}) => {
-  const {id, isPremium, previewImage, rating, price, type, title, isFavorite} = card;
+const OfferCard = ({card, handleCardHover, cardType = ListType.MainList, handleBookmarkClick, isFetching}) => {
+  const {
+    id,
+    isPremium,
+    previewImage,
+    rating,
+    price,
+    type,
+    title,
+    isFavorite
+  } = card;
   const cardClasses = classNames({
-    'place-card': true,
-    'cities__place-card': (cardType === ListType.MainList),
-    'near-places__card': (cardType === ListType.NearbyList)
+    "place-card": true,
+    "cities__place-card": cardType === ListType.MainList,
+    "near-places__card": cardType === ListType.NearbyList,
+    "favorites__card": cardType === ListType.FavoriteList
   });
   const buttonClasses = classNames({
-    'place-card__bookmark-button button': true,
-    'place-card__bookmark-button--active': isFavorite,
+    "place-card__bookmark-button button": true,
+    "place-card__bookmark-button--active": isFavorite
   });
   const cardImageWrapperClasses = classNames({
-    'place-card__image-wrapper': true,
-    'cities__image-wrapper': (cardType === ListType.MainList),
-    'near-places__image-wrapper': (cardType === ListType.NearbyList)
+    "place-card__image-wrapper": true,
+    "cities__image-wrapper": cardType === ListType.MainList,
+    "near-places__image-wrapper": cardType === ListType.NearbyList,
+    "favorites__image-wrapper": cardType === ListType.FavoriteList,
+  });
+  const cardInfoClasses = classNames({
+    "place-card__info": true,
+    "favorites__card-info": cardType === ListType.FavoriteList,
   });
 
   const ratingStyle = {
-    width: `${rating * 20}%`,
+    width: `${rating * 20}%`
   };
 
   return (
     <article
       className={cardClasses}
-      onMouseEnter = {() => {
-        onCardHover(id);
+      onMouseEnter={() => {
+        handleCardHover(id);
       }}
     >
-      {isPremium ? <div className="place-card__mark">
-        <span>Premium</span>
-      </div> : ``}
+      {isPremium ? (
+        <div className="place-card__mark">
+          <span>Premium</span>
+        </div>
+      ) : (
+        ``
+      )}
       <div className={`${cardImageWrapperClasses}`}>
-        <a href="#">
-          <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image"/>
-        </a>
+        <Link to={`/offer/${id}`} exact="true">
+          <img
+            className="place-card__image"
+            src={previewImage}
+            width={cardType === ListType.FavoriteList ? 150 : 260}
+            height={cardType === ListType.FavoriteList ? 110 : 200}
+            alt="Place image"
+          />
+        </Link>
       </div>
-      <div className="place-card__info">
+      <div className={cardInfoClasses}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={buttonClasses} type="button">
+          <button
+            className={buttonClasses}
+            type="button"
+            disabled={isFetching}
+            onClick={() => {
+              handleBookmarkClick(id, !isFavorite);
+            }}
+          >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
@@ -61,14 +95,11 @@ const OfferCard = ({card, onCardHover, cardType = ListType.MainList}) => {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link
-            to = {`/offer/${id}`}
-            exact = "true"
-          >
+          <Link to={`/offer/${id}`} exact="true">
             {title}
           </Link>
         </h2>
-        <p className="place-card__type">{type}</p>
+        <p className="place-card__type">{firstToUpperCase(type)}</p>
       </div>
     </article>
   );
@@ -76,8 +107,16 @@ const OfferCard = ({card, onCardHover, cardType = ListType.MainList}) => {
 
 OfferCard.propTypes = {
   card: PropTypes.shape(offerCardPropTypes).isRequired,
-  onCardHover: PropTypes.func.isRequired,
+  handleCardHover: PropTypes.func,
+  handleBookmarkClick: PropTypes.func.isRequired,
   cardType: PropTypes.string,
+  isFetching: PropTypes.bool.isRequired,
 };
 
-export default OfferCard;
+export {OfferCard};
+
+const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
+  isFetching: state.isFetching,
+});
+
+export default connect(mapStateToProps, null)(OfferCard);

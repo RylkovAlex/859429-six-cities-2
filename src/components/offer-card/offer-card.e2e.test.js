@@ -1,7 +1,7 @@
 import Enzyme, {shallow} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
-import OfferCard from './offer-card';
+import {OfferCard} from './offer-card';
 import {offerCardForTests} from '../../prop-types/prop-types';
 
 Enzyme.configure({adapter: new Adapter()});
@@ -13,7 +13,10 @@ it(`OfferCard is correctly handle hover`, () => {
   cardData.id = cardId;
   const offerCard = shallow(<OfferCard
     card = {cardData}
-    onCardHover = {onCardHoverHandler}
+    handleCardHover = {onCardHoverHandler}
+    cardType = ""
+    handleBookmarkClick = {jest.fn()}
+    isFetching = {false}
   />);
 
   const card = offerCard.find(`.place-card`);

@@ -8,7 +8,8 @@ it(`OfferList correctly renders after relaunch`, () => {
   const props = {
     offerCards: [],
     listType: ListType.MainList,
-    onCardHover: jest.fn(),
+    handleCardHover: jest.fn(),
+    handleBookmarkClick: jest.fn(),
   };
 
   const tree = renderer

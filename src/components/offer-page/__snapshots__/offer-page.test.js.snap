@@ -47,11 +47,12 @@ exports[`OfferPage correctly renders after relaunch 1`] = `
               
             </h1>
             <button
-              className="property__bookmark-button button"
+              className="property__bookmark-button button "
+              onClick={[Function]}
               type="button"
             >
               <svg
-                className="property__bookmark-icon"
+                className="property__bookmark-icon place-card__bookmark-icon"
                 height="33"
                 width="31"
               >
@@ -220,9 +221,6 @@ exports[`OfferPage correctly renders after relaunch 1`] = `
         >
           Other places in the neighbourhood
         </h2>
-        <div
-          className="near-places__list places__list"
-        />
       </section>
     </div>
   </main>
