@@ -8,6 +8,9 @@ exports[`MapComponent renders after relaunch 1`] = `
       0,
     ]
   }
+  onMouseout={[Function]}
+  onZoom={[Function]}
+  scrollWheelZoom={false}
   style={
     Object {
       "height": "100%",

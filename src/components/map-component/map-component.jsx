@@ -1,13 +1,8 @@
-import React from "react";
-import PropTypes from 'prop-types';
+import React, {useState} from "react";
+import PropTypes from "prop-types";
 
 import L from "leaflet";
-import {
-  Map,
-  Marker,
-  TileLayer,
-  LayersControl
-} from "react-leaflet";
+import {Map, Marker, TileLayer, LayersControl} from "react-leaflet";
 import history from "../../browser-history/browser-history";
 
 const simpleIcon = L.icon({
@@ -31,31 +26,42 @@ const hyddaMap = (
   />
 );
 
-const MapComponent = ({config, activePointId}) => (
-  <Map center={config.center} zoom={config.zoom} style={{height: `100%`}}>
-    <LayersControl position="topright">
-      <LayersControl.BaseLayer name="BaseMap" checked>
-        {baseMap}
-      </LayersControl.BaseLayer>
-      <LayersControl.BaseLayer name="HyddaMap">
-        {hyddaMap}
-      </LayersControl.BaseLayer>
-    </LayersControl>
-    {config.points.map((point) => {
-      const {position, id} = point;
-      return (
-        <Marker
-          icon={id === activePointId ? activeIcon : simpleIcon}
-          position={position}
-          key={id}
-          onClick={() => {
-            history.push(`/offer/${id}`);
-          }}
-        ></Marker>
-      );
-    })}
-  </Map>
-);
+const MapComponent = ({config, activePointId}) => {
+  // Не стал этот стейт прятать в HOC, т.к. реализовал такое поведение просто исходя из юзабилити в offerPage и это не входит в ТЗ
+  const [scrollWheelZoom, setScrollWheelZoom] = useState(false);
+  return (
+    <Map
+      center={config.center}
+      zoom={config.zoom}
+      style={{height: `100%`}}
+      onZoom={()=>setScrollWheelZoom(true)}
+      onMouseout={()=>setScrollWheelZoom(false)}
+      scrollWheelZoom={scrollWheelZoom}
+    >
+      <LayersControl position="topright">
+        <LayersControl.BaseLayer name="BaseMap" checked>
+          {baseMap}
+        </LayersControl.BaseLayer>
+        <LayersControl.BaseLayer name="HyddaMap">
+          {hyddaMap}
+        </LayersControl.BaseLayer>
+      </LayersControl>
+      {config.points.map((point) => {
+        const {position, id} = point;
+        return (
+          <Marker
+            icon={id === activePointId ? activeIcon : simpleIcon}
+            position={position}
+            key={id}
+            onClick={() => {
+              history.push(`/offer/${id}`);
+            }}
+          ></Marker>
+        );
+      })}
+    </Map>
+  );
+};
 
 MapComponent.propTypes = {
   config: PropTypes.object.isRequired,
