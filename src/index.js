@@ -11,10 +11,7 @@ import appReducer from './redux/reducers/app-reducer.js';
 import {createAPI} from './api/api.js';
 import history from './browser-history/browser-history.js';
 
-const onLoginFail = () => {
-  history.push(`/login`);
-};
-const api = createAPI(onLoginFail, (...args) => store.dispatch(...args));
+const api = createAPI((...args) => store.dispatch(...args));
 
 const composeEnhancers =
   typeof window === `object` &&

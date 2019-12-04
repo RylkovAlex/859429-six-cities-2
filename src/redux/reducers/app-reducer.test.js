@@ -179,19 +179,20 @@ describe(`appReducer works correctly`, () => {
     expect(appReducer({
       allOffers: [],
       isAppReady: false,
+      loadOffersError: false,
     }, {
       type: LOAD_OFFERS_SUCCESS,
       offers: [offer1, offer2]
     })).toEqual({
       allOffers: [offer1, offer2],
       isAppReady: true,
+      loadOffersError: false,
     });
   });
 
   it(`Should make a correct API call to /hotels`, function () {
-    const loginFail = jest.fn();
     const dispatch = jest.fn();
-    const api = createAPI(loginFail, dispatch);
+    const api = createAPI(dispatch);
     const apiMock = new MockAdapter(api);
     const offersLoader = Operation.loadOffers();
 

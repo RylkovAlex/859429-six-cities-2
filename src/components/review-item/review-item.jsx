@@ -9,7 +9,7 @@ const DATE_OPTIONS = {
 
 const ReviewItem = ({review}) => {
 
-  const {user} = review;
+  const {user, rating, comment, date} = review;
   return (
     <li className="reviews__item">
       <div className="reviews__user user">
@@ -23,14 +23,14 @@ const ReviewItem = ({review}) => {
       <div className="reviews__info">
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
-            <span style={{width: `${user.rating * 20}`}}></span>
+            <span style={{width: `${rating * 20}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <p className="reviews__text">
-          {review.comment}
+          {comment}
         </p>
-        <time className="reviews__time" dateTime={`${new Date(review.date).toISOString()}`}>{`${new Date(review.date).toLocaleDateString(`en`, DATE_OPTIONS)}`}</time>
+        <time className="reviews__time" dateTime={`${new Date(date).toISOString()}`}>{`${new Date(date).toLocaleDateString(`en`, DATE_OPTIONS)}`}</time>
       </div>
     </li>
 

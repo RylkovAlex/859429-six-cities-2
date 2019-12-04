@@ -10,6 +10,20 @@ export const getOffersToShow = createSelector(
     (cityName, allOffers) => allOffers.filter((offer) => offer.city.name === cityName)
 );
 
+export const getMapConfig = (offers) => {
+  const zoom = offers[0].city.location.zoom;
+  const center = [offers[0].city.location.latitude, offers[0].city.location.longitude];
+  const points = offers.map((offer) => ({
+    position: [offer.location.latitude, offer.location.longitude],
+    id: offer.id,
+  }));
+  return ({
+    zoom,
+    center,
+    points,
+  });
+};
+
 export const getCities = createSelector(
     [getAllOffers],
     (allOffers) => {

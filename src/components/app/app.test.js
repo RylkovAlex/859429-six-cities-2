@@ -13,7 +13,6 @@ it(`App correctly renders after relaunch`, () => {
     isAppReady: true,
     offersToShow: [],
     loadOffers: jest.fn(),
-    isAuthorizationRequired: true,
   };
 
   const tree = renderer

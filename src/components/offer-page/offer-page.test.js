@@ -7,7 +7,6 @@ import {offerCardForTests} from '../../prop-types/prop-types';
   OffersList: `../offers-list/offers-list.jsx`,
   ReviewsList: `../reviews-list/reviews-list.jsx`,
   Header: `../header/header.jsx`,
-  Map: `../map/map.jsx`,
   OfferCard: `../offer-card/offer-card.jsx`,
   ReviewForm: `../review-form/review-form.jsx`,
 }; */
@@ -18,7 +17,11 @@ for (let i = 0; i < modules.length; i++) {
   jest.mock(modules[i], () => jest.fn().mockReturnValue(null));
 } */
 
-jest.mock(`../map/map.jsx`, () => jest.fn().mockReturnValue(null));
+jest.mock(`../map-component/map-component.jsx`, () => jest.fn().mockReturnValue(null));
+jest.mock(`../../redux/selectors/selectors`, () => ({
+  __esModule: true,
+  getMapConfig: jest.fn().mockReturnValue(null),
+}));
 jest.mock(`../header/header.jsx`, () => jest.fn().mockReturnValue(null));
 jest.mock(`../review-form/review-form.jsx`, () => jest.fn().mockReturnValue(null));
 jest.mock(`../offers-list/offers-list.jsx`, () => ({
@@ -32,6 +35,10 @@ jest.mock(`../offers-list/offers-list.jsx`, () => ({
 
 it(`OfferPage correctly renders after relaunch`, () => {
   const props = {
+    activeCard: 0,
+    loadReviews: jest.fn(),
+    isReviewsLoading: false,
+    isReviewsLoadingError: false,
     offers: [offerCardForTests],
     reviews: [],
     match: {

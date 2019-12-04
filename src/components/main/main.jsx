@@ -5,13 +5,13 @@ import {connect} from 'react-redux';
 
 import OffersList from '../offers-list/offers-list.jsx';
 // import {offerCardPropTypes} from '../../prop-types/prop-types.js';
-import Map from '../map/map.jsx';
 import Header from '../header/header.jsx';
 import CitiesList from '../cities-list/cities-list.jsx';
 import ActionCreator, {Operation} from '../../redux/actions/action-creator/action-creator.js';
 import SortingForm from '../sorting-form/sorting-form.jsx';
 import MainEmpty from '../main-empty/main-empty.jsx';
-import {getOffersToShow, getCities} from '../../redux/selectors/selectors.js';
+import {getOffersToShow, getCities, getMapConfig} from '../../redux/selectors/selectors.js';
+import MapComponent from '../map-component/map-component.jsx';
 
 const ListType = {
   MainList: `main`,
@@ -19,7 +19,7 @@ const ListType = {
 };
 
 const Main = (props) => {
-  const {offersToShow, cities, city, sortedOffers, sortingType, sortOffers, postFavorite} = props;
+  const {offersToShow, cities, city, sortedOffers, sortingType, sortOffers, postFavorite, activeCard} = props;
   const handleCardHover = props.changeActiveCard;
   const handleCityClick = (evt) => {
     evt.preventDefault();
@@ -48,10 +48,12 @@ const Main = (props) => {
               />
             </section>
             <div className="cities__right-section">
-              <Map>
-                <section className="cities__map map">
-                </section>
-              </Map>
+              <section className="cities__map map">
+                <MapComponent
+                  config = {getMapConfig(offersToShow)}
+                  activePointId = {activeCard}
+                />
+              </section>
             </div>
           </div>
         </div>
@@ -82,6 +84,7 @@ const Main = (props) => {
 };
 
 Main.propTypes = {
+  activeCard: PropTypes.number.isRequired,
   cities: PropTypes.array.isRequired,
   setCity: PropTypes.func.isRequired,
   offersToShow: PropTypes.array.isRequired,
@@ -96,6 +99,7 @@ Main.propTypes = {
 export {Main};
 
 const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
+  activeCard: state.activeCard,
   city: state.city,
   cities: getCities(state),
   offersToShow: getOffersToShow(state),

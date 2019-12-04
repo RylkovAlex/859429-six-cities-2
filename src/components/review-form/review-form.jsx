@@ -11,7 +11,8 @@ const ReviewForm = ({
   hotelId,
   sendReview,
   isReviewSending,
-  reviewSentSuccessfully
+  reviewSentSuccessfully,
+  isReviewSendingError,
 }) => {
 
   const handleRatingInput = (evt) => {
@@ -70,6 +71,7 @@ const ReviewForm = ({
         placeholder="Tell how was your stay, what you like and what can be improved"
         onChange={(evt) => setInput(`comment`, evt.target.value)}
       ></textarea>
+      {isReviewSendingError && <p className="reviews__help" style={{color: `red`}}>Проверьте интернет соединение... попробуйте отправить форму ещё раз или перезагрузите страницу</p>}
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set{` `}
@@ -98,6 +100,7 @@ ReviewForm.propTypes = {
   isFormValid: PropTypes.bool.isRequired,
   isReviewSending: PropTypes.bool.isRequired,
   reviewSentSuccessfully: PropTypes.bool.isRequired,
+  isReviewSendingError: PropTypes.bool.isRequired,
   inputValues: PropTypes.object,
   hotelId: PropTypes.number.isRequired
 };
@@ -107,7 +110,8 @@ export {ReviewForm};
 const mapStateToProps = (state, ownProps) =>
   Object.assign({}, ownProps, {
     isReviewSending: state.isReviewSending,
-    reviewSentSuccessfully: state.reviewSentSuccessfully
+    reviewSentSuccessfully: state.reviewSentSuccessfully,
+    isReviewSendingError: state.isReviewSendingError,
   });
 
 const mapDispatchToProps = (dispatch) => ({
