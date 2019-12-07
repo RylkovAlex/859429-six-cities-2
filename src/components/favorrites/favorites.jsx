@@ -8,7 +8,7 @@ import {getFavorites, getCities} from '../../redux/selectors/selectors';
 import ActionCreator, {Operation} from '../../redux/actions/action-creator/action-creator';
 import FavoritesEmpty from '../favorites-empty/favorites-empty.jsx';
 import OffersList, {ListType} from '../offers-list/offers-list.jsx';
-import withAuth from '../hocs/with-auth/with-auth.jsx';
+import withAuth from '../../hocs/with-auth/with-auth.jsx';
 
 const Favorites = ({favorites, postFavorite, activeCity, cities, setCity}) => {
   const handleCityLinkClick = (cityName) => {

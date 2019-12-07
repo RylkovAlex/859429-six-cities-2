@@ -1,11 +1,12 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import ReviewsList from './reviews-list';
-jest.mock(`../review-item/review-item.jsx`, () => jest.fn().mockReturnValue(null));
+import {reviewsMock} from '../../mocks/reviews';
+jest.mock(`../review-item/review-item.jsx`, () => () => <div/>);
 
 it(`ReviewsList correctly renders after relaunch`, () => {
   const props = {
-    reviews: [],
+    reviews: reviewsMock,
   };
 
   const tree = renderer

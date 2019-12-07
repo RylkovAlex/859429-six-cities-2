@@ -14,14 +14,14 @@ exports[`ReviewItem correctly renders after relaunch 1`] = `
         alt="Reviews avatar"
         className="reviews__avatar user__avatar"
         height="54"
-        src=""
+        src="/img/avatar-max.jpg"
         width="54"
       />
     </div>
     <span
       className="reviews__user-name"
     >
-      
+      Max
     </span>
   </div>
   <div
@@ -36,7 +36,7 @@ exports[`ReviewItem correctly renders after relaunch 1`] = `
         <span
           style={
             Object {
-              "width": "0%",
+              "width": "80%",
             }
           }
         />
@@ -50,13 +50,13 @@ exports[`ReviewItem correctly renders after relaunch 1`] = `
     <p
       className="reviews__text"
     >
-      
+      A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.
     </p>
     <time
       className="reviews__time"
-      dateTime="2019-11-07T10:56:54.000Z"
+      dateTime="2019-05-08T14:13:56.569Z"
     >
-      November 7
+      May 8
     </time>
   </div>
 </li>

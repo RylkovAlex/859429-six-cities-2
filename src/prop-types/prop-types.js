@@ -35,6 +35,28 @@ export const offerCardPropTypes = {
   }),
 };
 
+export const reviewPropTypes = {
+  id: PropTypes.number.isRequired,
+  user: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    isPro: PropTypes.bool.isRequired,
+    name: PropTypes.string.isRequired,
+    avatarUrl: PropTypes.string.isRequired,
+  }),
+  rating: PropTypes.number.isRequired,
+  comment: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
+};
+
+export const cityPropTypes = {
+  name: PropTypes.string.isRequired,
+  location: PropTypes.shape({
+    latitude: PropTypes.number.isRequired,
+    longitude: PropTypes.number.isRequired,
+    zoom: PropTypes.number.isRequired,
+  }),
+};
+
 export const offerCardForTests = {
   city: {
     name: ``,
@@ -68,19 +90,6 @@ export const offerCardForTests = {
     longitude: 1,
     zoom: 1,
   },
-};
-
-export const reviewPropTypes = {
-  id: PropTypes.number.isRequired,
-  user: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    isPro: PropTypes.bool.isRequired,
-    name: PropTypes.string.isRequired,
-    avatarUrl: PropTypes.string.isRequired,
-  }),
-  rating: PropTypes.number.isRequired,
-  comment: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired,
 };
 
 export const reviewForTests = {

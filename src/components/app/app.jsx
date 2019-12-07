@@ -3,15 +3,13 @@ import {connect} from 'react-redux';
 import {Route, Switch, Redirect, withRouter} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import Main from '../main/main.jsx';
-import OfferPage from '../offer-page/offer-page.jsx';
-import withSortingState from '../hocs/withSortingState/with-sorting-state.js';
 import {getOffersToShow} from '../../redux/selectors/selectors.js';
 import {Operation} from '../../redux/actions/action-creator/action-creator.js';
+
 import SignIn from '../sign-in/sign-in.jsx';
 import Favorites from '../favorrites/favorites.jsx';
-
-const MainWithSortedOffers = withSortingState(Main);
+import MainWithSortedOffers from '../main/main.jsx';
+import OfferPage from '../offer-page/offer-page.jsx';
 
 const App = ({offersToShow, isAppReady, loadOffers}) => {
   useEffect(() => {
@@ -20,11 +18,15 @@ const App = ({offersToShow, isAppReady, loadOffers}) => {
 
   const routes = (
     <Switch>
-      <Route path = "/" exact render = {() => <MainWithSortedOffers offersToSort = {offersToShow}/>}/>
-      <Route path = "/login" exact component = {SignIn}/>
-      <Route path = "/offer/:id" exact component = {OfferPage}/>
-      <Route to = "/favorites" exact component = {Favorites}/>
-      <Redirect to = "/"/>
+      <Route
+        path="/"
+        exact
+        render={() => <MainWithSortedOffers offersToSort={offersToShow} />}
+      />
+      <Route path="/login" exact component={SignIn} />
+      <Route path="/offer/:id" exact component={OfferPage} />
+      <Route to="/favorites" exact component={Favorites} />
+      <Redirect to="/" />
     </Switch>
   );
 
@@ -39,10 +41,11 @@ App.propTypes = {
 
 export {App};
 
-const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
-  isAppReady: state.isAppReady,
-  offersToShow: getOffersToShow(state),
-});
+const mapStateToProps = (state, ownProps) =>
+  Object.assign({}, ownProps, {
+    isAppReady: state.isAppReady,
+    offersToShow: getOffersToShow(state),
+  });
 
 const mapDispatchToProps = (dispath) => ({
   loadOffers: () => dispath(Operation.loadOffers()),

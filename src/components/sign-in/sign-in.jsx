@@ -4,7 +4,7 @@ import {Link, Redirect} from 'react-router-dom';
 import {connect} from "react-redux";
 
 import Header from "../header/header.jsx";
-import withInputsState from "../hocs/withInputsState/withInputsState";
+import withInputsState from "../../hocs/with-inputs-state/withInputsState";
 import {Operation} from "../../redux/actions/action-creator/action-creator.js";
 
 const SignIn = ({setInput, inputValues, logIn, user}) => {

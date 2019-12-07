@@ -1,4 +1,4 @@
-export const offerCards = ([
+export const offersMock = ([
   {
     city: {
       name: `Amsterdam`,
@@ -205,3 +205,10 @@ export const offerCards = ([
   },
 
 ]);
+
+export const favoritesMock = [
+  {
+    city: `Paris`,
+    hotels: [offersMock[6]]
+  }
+];

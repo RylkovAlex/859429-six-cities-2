@@ -2,7 +2,7 @@ import React, {useRef, useEffect} from "react";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import {Operation} from "../../redux/actions/action-creator/action-creator";
-import withInputsState from "../hocs/withInputsState/withInputsState";
+import withInputsState from "../../hocs/with-inputs-state/withInputsState";
 
 const ReviewForm = ({
   setInput,

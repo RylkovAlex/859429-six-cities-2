@@ -5,14 +5,15 @@ import {
   offerCardPropTypes
 } from "../../prop-types/prop-types";
 import {connect} from "react-redux";
-import OffersList, {ListType} from "../offers-list/offers-list.jsx";
-import ReviewsList from "../reviews-list/reviews-list.jsx";
-import Header from "../header/header.jsx";
 import ActionCreator, {
   Operation
 } from "../../redux/actions/action-creator/action-creator";
-import ReviewForm from "../review-form/review-form.jsx";
 import {getNearbyCards, getMapConfig} from "../../redux/selectors/selectors";
+
+import OffersList, {ListType} from "../offers-list/offers-list.jsx";
+import ReviewsList from "../reviews-list/reviews-list.jsx";
+import Header from "../header/header.jsx";
+import ReviewForm from "../review-form/review-form.jsx";
 import MapComponent from "../map-component/map-component.jsx";
 
 const OfferPage = (props) => {

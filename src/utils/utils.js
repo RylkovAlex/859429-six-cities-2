@@ -1,3 +1,5 @@
+import React from 'react';
+
 // делает первую букву в строке заглавной
 export const firstToUpperCase = (str) => {
   if (!str) {
@@ -17,3 +19,7 @@ export const removePrefix = (string, prefix) => {
 
 // Для тестов
 export const createNodeMock = () => document.createElement(`div`);
+export const MockComponent = () => <div/>;
+export const mockModule = (component) => ({
+  [component]: MockComponent
+});

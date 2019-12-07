@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`OfferPage correctly renders after relaunch 1`] = `
+exports[`CitiesList correctly renders after relaunch 1`] = `
 <ul
   className="locations__list tabs__list"
 >
@@ -9,11 +9,10 @@ exports[`OfferPage correctly renders after relaunch 1`] = `
   >
     <a
       className="locations__item-link tabs__item "
-      href="#"
+      href="/"
+      onClick={[Function]}
     >
-      <span
-        onClick={[MockFunction]}
-      >
+      <span>
         1
       </span>
     </a>
@@ -23,11 +22,10 @@ exports[`OfferPage correctly renders after relaunch 1`] = `
   >
     <a
       className="locations__item-link tabs__item "
-      href="#"
+      href="/"
+      onClick={[Function]}
     >
-      <span
-        onClick={[MockFunction]}
-      >
+      <span>
         2
       </span>
     </a>
