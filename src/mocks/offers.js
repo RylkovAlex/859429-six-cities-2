@@ -1,4 +1,4 @@
-export const offerCards = ([
+export const offersMock = ([
   {
     city: {
       name: `Amsterdam`,
@@ -206,29 +206,9 @@ export const offerCards = ([
 
 ]);
 
-
-export const offerAdapter = {
-  toModel: (rawOffer) => ({
-    city: rawOffer.city,
-    id: rawOffer.id,
-    previewImage: rawOffer.preview_image,
-    images: rawOffer.images,
-    title: rawOffer.title,
-    isFavorite: rawOffer.is_favorite,
-    isPremium: rawOffer.is_premium,
-    rating: rawOffer.rating,
-    type: rawOffer.type,
-    bedrooms: rawOffer.bedrooms,
-    maxAdults: rawOffer.max_adults,
-    price: rawOffer.price,
-    goods: rawOffer.goods,
-    host: {
-      id: rawOffer.host.id,
-      isPro: rawOffer.host.is_pro,
-      name: rawOffer.host.name,
-      avatarUrl: rawOffer.host.avatar_url,
-    },
-    description: rawOffer.description,
-    location: rawOffer.location
-  }),
-};
+export const favoritesMock = [
+  {
+    city: `Paris`,
+    hotels: [offersMock[6]]
+  }
+];

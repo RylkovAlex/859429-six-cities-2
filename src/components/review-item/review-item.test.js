@@ -1,11 +1,11 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import ReviewItem from './review-item';
-import {reviewForTests} from '../../prop-types/prop-types';
+import {reviewsMock} from '../../mocks/reviews';
 
 it(`ReviewItem correctly renders after relaunch`, () => {
   const props = {
-    review: reviewForTests,
+    review: reviewsMock[0],
   };
 
   const tree = renderer

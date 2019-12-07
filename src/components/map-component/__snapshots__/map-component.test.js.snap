@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MapComponent renders after relaunch 1`] = `
+<Map
+  center={
+    Array [
+      0,
+      0,
+    ]
+  }
+  onMouseout={[Function]}
+  onZoom={[Function]}
+  scrollWheelZoom={false}
+  style={
+    Object {
+      "height": "100%",
+    }
+  }
+  zoom={0}
+>
+  <ForwardRef(Leaflet(LayersControl))
+    position="topright"
+  >
+    <BaseLayer
+      checked={true}
+      name="BaseMap"
+    >
+      <ForwardRef(Leaflet(TileLayer))
+        attribution="&copy; <a href=\\"https://www.openstreetmap.org/copyright\\">OpenStreetMap</a> contributors &copy; <a href=\\"https://carto.com/attributions\\">CARTO</a>"
+        url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+      />
+    </BaseLayer>
+    <BaseLayer
+      name="HyddaMap"
+    >
+      <ForwardRef(Leaflet(TileLayer))
+        attribution="Tiles courtesy of <a href=\\"http://openstreetmap.se/\\" target=\\"_blank\\">OpenStreetMap Sweden</a> &mdash; Map data &copy; <a href=\\"https://www.openstreetmap.org/copyright\\">OpenStreetMap</a> contributors"
+        url="https://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png"
+      />
+    </BaseLayer>
+  </ForwardRef(Leaflet(LayersControl))>
+  <ForwardRef(Leaflet(Marker))
+    icon={
+      NewClass {
+        "_initHooksCalled": true,
+        "options": Object {
+          "iconUrl": "/img/pin-active.svg",
+        },
+      }
+    }
+    key="0"
+    onClick={[Function]}
+    position={
+      Array [
+        0,
+        0,
+      ]
+    }
+  />
+</Map>
+`;

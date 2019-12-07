@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {SortingType} from '../hocs/withSortingState/with-sorting-state';
+import {SortingType} from '../../hocs/with-sorting-state/with-sorting-state';
 
 const SortingOptionsList = ({onOptionClick, activeOption}) => {
   const sortingTypes = Object.values(SortingType);

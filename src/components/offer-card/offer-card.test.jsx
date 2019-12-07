@@ -2,14 +2,15 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import {OfferCard} from './offer-card';
 import {MemoryRouter} from 'react-router';
-import {offerCardForTests} from '../../prop-types/prop-types';
 import {ListType} from '../offers-list/offers-list';
+import {offersMock} from '../../mocks/offers';
 
 it(`OfferCard correctly renders after relaunch`, () => {
   const props = {
-    card: offerCardForTests,
-    cardType: ListType.MainList,
+    card: offersMock[0],
+    handleCardHover: jest.fn(),
     handleBookmarkClick: jest.fn(),
+    cardType: ListType.MainList,
     isFetching: false,
   };
 
@@ -21,6 +22,5 @@ it(`OfferCard correctly renders after relaunch`, () => {
     )
     .toJSON();
 
-  expect(props.cardType).toEqual(`main`);
   expect(tree).toMatchSnapshot();
 });

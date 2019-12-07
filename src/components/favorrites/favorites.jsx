@@ -8,13 +8,14 @@ import {getFavorites, getCities} from '../../redux/selectors/selectors';
 import ActionCreator, {Operation} from '../../redux/actions/action-creator/action-creator';
 import FavoritesEmpty from '../favorites-empty/favorites-empty.jsx';
 import OffersList, {ListType} from '../offers-list/offers-list.jsx';
+import withAuth from '../../hocs/with-auth/with-auth.jsx';
 
 const Favorites = ({favorites, postFavorite, activeCity, cities, setCity}) => {
   const handleCityLinkClick = (cityName) => {
     const city = cities.find((c) => c.name === cityName);
     setCity(city);
   };
-  if (!favorites.length) {
+  if (favorites.every((group) => !group.hotels.length)) {
     return <FavoritesEmpty/>;
   }
   return (
@@ -78,6 +79,8 @@ Favorites.propTypes = {
   setCity: PropTypes.func.isRequired,
 };
 
+export {Favorites};
+
 const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
   activeCity: state.city,
   cities: getCities(state),
@@ -89,4 +92,4 @@ const mapDispatchToProps = (dispatch) => ({
   postFavorite: (cardId, status) => dispatch(Operation.postFavorite(cardId, status)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Favorites);
+export default withAuth(connect(mapStateToProps, mapDispatchToProps)(Favorites));

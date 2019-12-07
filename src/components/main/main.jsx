@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import ActionCreator, {Operation} from '../../redux/actions/action-creator/action-creator.js';
 import {connect} from 'react-redux';
+import {getOffersToShow, getCities, getMapConfig} from '../../redux/selectors/selectors.js';
 
 import OffersList from '../offers-list/offers-list.jsx';
-// import {offerCardPropTypes} from '../../prop-types/prop-types.js';
-import Map from '../map/map.jsx';
 import Header from '../header/header.jsx';
 import CitiesList from '../cities-list/cities-list.jsx';
-import ActionCreator, {Operation} from '../../redux/actions/action-creator/action-creator.js';
 import SortingForm from '../sorting-form/sorting-form.jsx';
 import MainEmpty from '../main-empty/main-empty.jsx';
-import {getOffersToShow, getCities} from '../../redux/selectors/selectors.js';
+import MapComponent from '../map-component/map-component.jsx';
+import {cityPropTypes, offerCardPropTypes} from '../../prop-types/prop-types.js';
+import withSortingState from '../../hocs/with-sorting-state/with-sorting-state.js';
 
 const ListType = {
   MainList: `main`,
@@ -19,7 +19,7 @@ const ListType = {
 };
 
 const Main = (props) => {
-  const {offersToShow, cities, city, sortedOffers, sortingType, sortOffers, postFavorite} = props;
+  const {offersToShow, cities, city, sortedOffers, sortingType, sortOffers, postFavorite, activeCard} = props;
   const handleCardHover = props.changeActiveCard;
   const handleCityClick = (evt) => {
     evt.preventDefault();
@@ -48,10 +48,12 @@ const Main = (props) => {
               />
             </section>
             <div className="cities__right-section">
-              <Map>
-                <section className="cities__map map">
-                </section>
-              </Map>
+              <section className="cities__map map">
+                <MapComponent
+                  config = {getMapConfig(offersToShow)}
+                  activePointId = {activeCard}
+                />
+              </section>
             </div>
           </div>
         </div>
@@ -82,12 +84,13 @@ const Main = (props) => {
 };
 
 Main.propTypes = {
-  cities: PropTypes.array.isRequired,
+  activeCard: PropTypes.number.isRequired,
+  cities: PropTypes.arrayOf(PropTypes.shape(cityPropTypes)),
   setCity: PropTypes.func.isRequired,
-  offersToShow: PropTypes.array.isRequired,
-  city: PropTypes.object.isRequired,
+  offersToShow: PropTypes.arrayOf(PropTypes.shape(offerCardPropTypes)).isRequired,
+  city: PropTypes.shape(cityPropTypes).isRequired,
   changeActiveCard: PropTypes.func.isRequired,
-  sortedOffers: PropTypes.array.isRequired,
+  sortedOffers: PropTypes.arrayOf(PropTypes.shape(offerCardPropTypes)).isRequired,
   sortingType: PropTypes.string.isRequired,
   sortOffers: PropTypes.func.isRequired,
   postFavorite: PropTypes.func.isRequired,
@@ -96,6 +99,7 @@ Main.propTypes = {
 export {Main};
 
 const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
+  activeCard: state.activeCard,
   city: state.city,
   cities: getCities(state),
   offersToShow: getOffersToShow(state),
@@ -107,4 +111,4 @@ const mapDispatchToProps = (dispatch) => ({
   postFavorite: (cardId, status) => dispatch(Operation.postFavorite(cardId, status)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default withSortingState(connect(mapStateToProps, mapDispatchToProps)(Main));

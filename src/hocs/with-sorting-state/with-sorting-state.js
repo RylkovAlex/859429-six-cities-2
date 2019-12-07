@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {offerCardPropTypes} from '../../prop-types/prop-types';
 
 export const SortingType = {
   Popular: `Popular`,
@@ -80,7 +81,7 @@ const withSortingState = (Component) => {
   }
 
   WithSortingState.propTypes = {
-    offersToSort: PropTypes.array,
+    offersToSort: PropTypes.arrayOf(PropTypes.shape(offerCardPropTypes)),
   };
   return WithSortingState;
 };

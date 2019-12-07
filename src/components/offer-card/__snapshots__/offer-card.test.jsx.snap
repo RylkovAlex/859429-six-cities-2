@@ -11,14 +11,14 @@ exports[`OfferCard correctly renders after relaunch 1`] = `
   >
     <a
       exact="true"
-      href="/offer/0"
+      href="/offer/1"
       onClick={[Function]}
     >
       <img
         alt="Place image"
         className="place-card__image"
         height={200}
-        src=""
+        src="/img/apartment-01.jpg"
         width={260}
       />
     </a>
@@ -36,7 +36,7 @@ exports[`OfferCard correctly renders after relaunch 1`] = `
           className="place-card__price-value"
         >
           €
-          0
+          20
         </b>
         <span
           className="place-card__price-text"
@@ -75,7 +75,7 @@ exports[`OfferCard correctly renders after relaunch 1`] = `
         <span
           style={
             Object {
-              "width": "0%",
+              "width": "56%",
             }
           }
         />
@@ -91,16 +91,16 @@ exports[`OfferCard correctly renders after relaunch 1`] = `
     >
       <a
         exact="true"
-        href="/offer/0"
+        href="/offer/1"
         onClick={[Function]}
       >
-        
+        Beautiful & luxurious studio at great location
       </a>
     </h2>
     <p
       className="place-card__type"
     >
-      
+      Apartment
     </p>
   </div>
 </article>

@@ -4,6 +4,7 @@ exports[`Main correctly renders after relaunch 1`] = `
 <div
   className="page page--gray page--main"
 >
+  <div />
   <main
     className="page__main page__main--index"
   >
@@ -18,9 +19,7 @@ exports[`Main correctly renders after relaunch 1`] = `
       <section
         className="locations container"
       >
-        <ul
-          className="locations__list tabs__list"
-        />
+        <div />
       </section>
     </div>
     <div
@@ -40,13 +39,22 @@ exports[`Main correctly renders after relaunch 1`] = `
           <b
             className="places__found"
           >
-            1
+            6
              places to stay in 
+            1
           </b>
+          <div />
+          <div />
         </section>
         <div
           className="cities__right-section"
-        />
+        >
+          <section
+            className="cities__map map"
+          >
+            <div />
+          </section>
+        </div>
       </div>
     </div>
   </main>

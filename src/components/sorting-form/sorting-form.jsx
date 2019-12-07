@@ -1,7 +1,7 @@
 import React from 'react';
 import SortingOptionsList from '../sorting-options-list/sorting-options-list.jsx';
 import PropTypes from 'prop-types';
-import withSortingList from '../hocs/withSortingList/with-sorting-list.js';
+import withSortingList from '../../hocs/with-sorting-list/with-sorting-list.js';
 
 function SortingForm({isListOpen, setListOpen, sortingType, sortOffers}) {
   const optionClickHandler = (type) => {
@@ -32,14 +32,6 @@ function SortingForm({isListOpen, setListOpen, sortingType, sortOffers}) {
         activeOption = {sortingType}
       />
       }
-
-      {/* TODO: зачем этот select?! */}
-      {/* <select className="places__sorting-type" id="places-sorting">
-          <option className="places__option" value="popular">Popular</option>
-          <option className="places__option" value="to-high">Price: low to high</option>
-          <option className="places__option" value="to-low">Price: high to low</option>
-          <option className="places__option" value="top-rated">Top rated first</option>
-        </select> */}
     </form>
   );
 }

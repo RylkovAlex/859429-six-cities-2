@@ -1,24 +1,37 @@
-import React from "react";
+import React, {useEffect} from "react";
 import PropTypes from "prop-types";
 import {
   reviewPropTypes,
   offerCardPropTypes
 } from "../../prop-types/prop-types";
 import {connect} from "react-redux";
+import ActionCreator, {
+  Operation
+} from "../../redux/actions/action-creator/action-creator";
+import {getNearbyCards, getMapConfig} from "../../redux/selectors/selectors";
 
 import OffersList, {ListType} from "../offers-list/offers-list.jsx";
 import ReviewsList from "../reviews-list/reviews-list.jsx";
 import Header from "../header/header.jsx";
-import Map from "../map/map.jsx";
-import ActionCreator, {Operation} from "../../redux/actions/action-creator/action-creator";
 import ReviewForm from "../review-form/review-form.jsx";
-import {getNearbyCards} from "../../redux/selectors/selectors";
+import MapComponent from "../map-component/map-component.jsx";
 
 const OfferPage = (props) => {
-  const {reviews, offers, isAuthorized, changeActiveCard, postFavorite, isFetching, nearbyCards} = props;
+  const {
+    reviews,
+    offers,
+    isAuthorized,
+    changeActiveCard,
+    postFavorite,
+    isFetching,
+    nearbyCards,
+    loadReviews,
+    isReviewsLoading,
+    isReviewsLoadingError,
+    activeCard
+  } = props;
   const hotelId = +props.match.params.id;
   const card = offers.find((offer) => +offer.id === hotelId);
-
   const {
     id,
     images,
@@ -37,6 +50,10 @@ const OfferPage = (props) => {
   const ratingStyle = {
     width: `${rating * 20}%`
   };
+
+  useEffect(() => {
+    loadReviews(id);
+  }, []);
 
   return (
     <div className="page">
@@ -69,10 +86,12 @@ const OfferPage = (props) => {
               <div className="property__name-wrapper">
                 <h1 className="property__name">{title}</h1>
                 <button
-                  className={`property__bookmark-button button ${isFavorite ? `place-card__bookmark-button--active` : ``}`}
+                  className={`property__bookmark-button button ${
+                    isFavorite ? `place-card__bookmark-button--active` : ``
+                  }`}
                   type="button"
-                  disabled = {isFetching}
-                  onClick = {() => postFavorite(id, !isFavorite)}
+                  disabled={isFetching}
+                  onClick={() => postFavorite(id, !isFavorite)}
                 >
                   <svg
                     className="property__bookmark-icon place-card__bookmark-icon"
@@ -148,16 +167,29 @@ const OfferPage = (props) => {
                   Reviews &middot; <span className="reviews__amount">1</span>
                 </h2>
                 {/* Список отзывов */}
-                <ReviewsList reviews={reviews} />
+                {isReviewsLoadingError && (
+                  <p>
+                    Connection problem, can`t load reviews! To try again refresh
+                    page!
+                  </p>
+                )}
+                {isReviewsLoading ? (
+                  <p>Loading...</p>
+                ) : (
+                  <ReviewsList reviews={reviews} />
+                )}
                 {/* Форма для отправки нового отзыва */}
                 {isAuthorized && <ReviewForm hotelId={hotelId} />}
               </section>
             </div>
           </div>
           {/* КАРТА */}
-          <Map points={nearbyCards}>
-            <section className="property__map map"></section>
-          </Map>
+          <section className="property__map map">
+            <MapComponent
+              config={getMapConfig(nearbyCards)}
+              activePointId={activeCard}
+            />
+          </section>
         </section>
 
         {/* Похожие */}
@@ -170,7 +202,7 @@ const OfferPage = (props) => {
               offerCards={nearbyCards}
               listType={ListType.NearbyList}
               handleCardHover={changeActiveCard}
-              handleBookmarkClick = {postFavorite}
+              handleBookmarkClick={postFavorite}
             ></OffersList>
           </section>
         </div>
@@ -180,9 +212,10 @@ const OfferPage = (props) => {
 };
 
 OfferPage.propTypes = {
+  activeCard: PropTypes.number.isRequired,
   offers: PropTypes.arrayOf(PropTypes.shape(offerCardPropTypes)).isRequired,
   nearbyCards: PropTypes.arrayOf(PropTypes.shape(offerCardPropTypes)),
-  reviews: PropTypes.arrayOf(PropTypes.shape(reviewPropTypes)).isRequired,
+  reviews: PropTypes.arrayOf(PropTypes.shape(reviewPropTypes)),
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.string
@@ -190,24 +223,33 @@ OfferPage.propTypes = {
   }).isRequired,
   changeActiveCard: PropTypes.func.isRequired,
   postFavorite: PropTypes.func.isRequired,
+  loadReviews: PropTypes.func.isRequired,
   isAuthorized: PropTypes.bool,
-  isFetching: PropTypes.bool,
+  isReviewsLoading: PropTypes.bool.isRequired,
+  isReviewsLoadingError: PropTypes.bool.isRequired,
+  isFetching: PropTypes.bool
 };
 
 export {OfferPage};
 
 const mapStateToProps = (state, ownProps) =>
   Object.assign({}, ownProps, {
+    activeCard: state.activeCard,
     nearbyCards: getNearbyCards(ownProps.match.params.id, state),
     offers: state.allOffers,
     reviews: state.reviews,
     isAuthorized: !!state.user,
-    isFetching: state. isFetching,
+    isReviewsLoading: state.isReviewsLoading,
+    isReviewsLoadingError: state.isReviewsLoadingError,
+    isFetching: state.isFetching,
+    isFetchError: state.isFetchError
   });
 
 const mapDispatchToProps = (dispatch) => ({
   changeActiveCard: (cardId) => dispatch(ActionCreator.changeActiveCard(cardId)),
-  postFavorite: (cardId, status) => dispatch(Operation.postFavorite(cardId, status)),
+  postFavorite: (cardId, status) =>
+    dispatch(Operation.postFavorite(cardId, status)),
+  loadReviews: (cardId) => dispatch(Operation.loadReviews(cardId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(OfferPage);

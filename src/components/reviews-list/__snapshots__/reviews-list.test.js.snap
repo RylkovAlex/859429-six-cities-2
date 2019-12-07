@@ -3,5 +3,7 @@
 exports[`ReviewsList correctly renders after relaunch 1`] = `
 <ul
   className="reviews__list"
-/>
+>
+  <div />
+</ul>
 `;
