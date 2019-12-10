@@ -1,7 +1,7 @@
 import React, {useRef, useEffect} from "react";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
-import {Operation} from "../../redux/actions/action-creator/action-creator";
+import ActionCreator, {Operation} from "../../redux/actions/action-creator/action-creator";
 import withInputsState from "../../hocs/with-inputs-state/withInputsState";
 
 const ReviewForm = ({
@@ -13,6 +13,7 @@ const ReviewForm = ({
   isReviewSending,
   reviewSentSuccessfully,
   isReviewSendingError,
+  clearErrors,
 }) => {
 
   const handleRatingInput = (evt) => {
@@ -22,17 +23,24 @@ const ReviewForm = ({
 
   // Для очистки формы в случае успешной отправки:
   const ratingRefs = ratingValues.map(() => useRef(null));
+  const clearInputs = () => {
+    ratingRefs.forEach((ref) => {
+      ref.current.checked = false;
+    });
+    commentRef.current.value = ``;
+    setInput(`comment`, ``);
+    setInput(`rating`, ``);
+  };
   const commentRef = useRef(null);
   useEffect(() => {
     if (reviewSentSuccessfully) {
-      ratingRefs.forEach((ref) => {
-        ref.current.checked = false;
-      });
-      commentRef.current.value = ``;
-      setInput(`comment`, ``);
-      setInput(`rating`, ``);
+      clearInputs();
     }
   }, [reviewSentSuccessfully]);
+  useEffect(() => {
+    clearErrors();
+    clearInputs();
+  }, []);
 
   return (
     <form className="reviews__form form" action="#" method="post">
@@ -97,6 +105,7 @@ const ReviewForm = ({
 ReviewForm.propTypes = {
   sendReview: PropTypes.func.isRequired,
   setInput: PropTypes.func.isRequired,
+  clearErrors: PropTypes.func.isRequired,
   isFormValid: PropTypes.bool.isRequired,
   isReviewSending: PropTypes.bool.isRequired,
   reviewSentSuccessfully: PropTypes.bool.isRequired,
@@ -116,7 +125,8 @@ const mapStateToProps = (state, ownProps) =>
 
 const mapDispatchToProps = (dispatch) => ({
   sendReview: (review, hotelId) =>
-    dispatch(Operation.sendReview(review, hotelId))
+    dispatch(Operation.sendReview(review, hotelId)),
+  clearErrors: () => dispatch(ActionCreator.clearErrors()),
 });
 
 const formWithState = withInputsState(ReviewForm, [`rating`, `comment`], {

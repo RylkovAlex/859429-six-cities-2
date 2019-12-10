@@ -6,6 +6,7 @@ it(`ReviewForm correctly renders after relaunch`, () => {
   const props = {
     sendReview: jest.fn(),
     setInput: jest.fn(),
+    clearErrors: jest.fn(),
     isFormValid: true,
     isReviewSending: false,
     reviewSentSuccessfully: false,

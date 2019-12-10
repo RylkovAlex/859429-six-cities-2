@@ -1,13 +1,22 @@
-import React from "react";
-import {connect} from "react-redux";
-import PropTypes from "prop-types";
-import {Link} from "react-router-dom";
-import {offerCardPropTypes} from "../../prop-types/prop-types";
-import classNames from "classnames";
-import {ListType} from "../offers-list/offers-list.jsx";
-import {firstToUpperCase} from "../../utils/utils";
+import React from 'react';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
+import {offerCardPropTypes} from '../../prop-types/prop-types';
+import classNames from 'classnames';
+import {ListType} from '../offers-list/offers-list.jsx';
+import {firstToUpperCase} from '../../utils/utils';
+import BookmarkButton from '../bookmark-button/bookmark-button.jsx';
+import history from '../../browser-history/browser-history';
 
-const OfferCard = ({card, handleCardHover, cardType = ListType.MainList, handleBookmarkClick, isFetching}) => {
+const OfferCard = ({
+  card,
+  handleCardHover,
+  cardType = ListType.MainList,
+  handleBookmarkClick,
+  isFetching,
+  isAuthorized
+}) => {
   const {
     id,
     isPremium,
@@ -16,31 +25,36 @@ const OfferCard = ({card, handleCardHover, cardType = ListType.MainList, handleB
     price,
     type,
     title,
-    isFavorite
+    isFavorite,
   } = card;
+
   const cardClasses = classNames({
-    "place-card": true,
-    "cities__place-card": cardType === ListType.MainList,
-    "near-places__card": cardType === ListType.NearbyList,
-    "favorites__card": cardType === ListType.FavoriteList
+    'place-card': true,
+    'cities__place-card': cardType === ListType.MainList,
+    'near-places__card': cardType === ListType.NearbyList,
+    'favorites__card': cardType === ListType.FavoriteList,
   });
   const buttonClasses = classNames({
-    "place-card__bookmark-button button": true,
-    "place-card__bookmark-button--active": isFavorite
+    'place-card__bookmark-button button': true,
+    'place-card__bookmark-button--active': isFavorite,
   });
   const cardImageWrapperClasses = classNames({
-    "place-card__image-wrapper": true,
-    "cities__image-wrapper": cardType === ListType.MainList,
-    "near-places__image-wrapper": cardType === ListType.NearbyList,
-    "favorites__image-wrapper": cardType === ListType.FavoriteList,
+    'place-card__image-wrapper': true,
+    'cities__image-wrapper': cardType === ListType.MainList,
+    'near-places__image-wrapper': cardType === ListType.NearbyList,
+    'favorites__image-wrapper': cardType === ListType.FavoriteList,
   });
   const cardInfoClasses = classNames({
-    "place-card__info": true,
-    "favorites__card-info": cardType === ListType.FavoriteList,
+    'place-card__info': true,
+    'favorites__card-info': cardType === ListType.FavoriteList,
   });
 
+  const bookmarkClickHandler = () => (
+    isAuthorized ? handleBookmarkClick(id, !isFavorite) : history.push(`/login`)
+  );
+
   const ratingStyle = {
-    width: `${rating * 20}%`
+    width: `${rating * 20}%`,
   };
 
   return (
@@ -74,19 +88,12 @@ const OfferCard = ({card, handleCardHover, cardType = ListType.MainList, handleB
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button
-            className={buttonClasses}
-            type="button"
-            disabled={isFetching}
-            onClick={() => {
-              handleBookmarkClick(id, !isFavorite);
-            }}
-          >
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">To bookmarks</span>
-          </button>
+          <BookmarkButton
+            buttonClasses={buttonClasses}
+            isFetching = {isFetching}
+            handleBookmarkClick = {bookmarkClickHandler}
+            isAuthorized = {isAuthorized}
+          />
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
@@ -111,12 +118,15 @@ OfferCard.propTypes = {
   handleBookmarkClick: PropTypes.func.isRequired,
   cardType: PropTypes.string,
   isFetching: PropTypes.bool.isRequired,
+  isAuthorized: PropTypes.bool.isRequired,
 };
 
 export {OfferCard};
 
-const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
-  isFetching: state.isFetching,
-});
+const mapStateToProps = (state, ownProps) =>
+  Object.assign({}, ownProps, {
+    isFetching: state.isFetching,
+    isAuthorized: !!state.user,
+  });
 
 export default connect(mapStateToProps, null)(OfferCard);

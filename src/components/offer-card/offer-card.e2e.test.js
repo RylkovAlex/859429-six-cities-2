@@ -19,15 +19,10 @@ it(`OfferCard is correctly handle hover`, () => {
     handleBookmarkClick = {onBookmarkClickHandler}
     cardType = {ListType.MainList}
     isFetching = {false}
+    isAuthorized = {true}
   />);
 
   const card = offerCard.find(`.place-card`);
   card.simulate(`mouseEnter`);
   expect(onCardHoverHandler).toHaveBeenCalledWith(cardId);
-
-  const bookmarkButton = offerCard.find(`.place-card__bookmark-button`);
-  bookmarkButton.simulate(`click`);
-
-  expect(onBookmarkClickHandler).toHaveBeenCalledTimes(1);
-  expect(onBookmarkClickHandler).toHaveBeenCalledWith(cardId, !cardData.isFavorite);
 });

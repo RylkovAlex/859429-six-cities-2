@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import {Redirect} from 'react-router-dom';
 
 const withAuth = (Component) => {
-  const WithAuth = ({isAuthorized}, ...props) => {
+  const WithAuth = (props) => {
+    const {isAuthorized} = props;
     if (isAuthorized) {
       return <Component {...props}/>;
     }

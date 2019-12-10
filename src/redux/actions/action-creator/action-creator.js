@@ -1,4 +1,4 @@
-import {CHANGE_CITY, CHANGE_ACTIVE_CARD, LOAD_OFFERS_SUCCESS, LOGIN_SUCCESS, SEND_REVIEW_START, SEND_REVIEW_SUCCESS, POST_FAVORITE_SUCCESS, FETCH_START, FETCH_SUCCESS, FETCH_ERROR, LOAD_REVIEWS_SUCCESS, LOAD_REVIEWS_START, SEND_REVIEW_ERROR, LOAD_REVIEWS_ERROR, LOAD_OFFERS_ERROR, CLEAR_USER} from "../action-types";
+import {CHANGE_CITY, CHANGE_ACTIVE_CARD, LOAD_OFFERS_SUCCESS, LOGIN_SUCCESS, SEND_REVIEW_START, SEND_REVIEW_SUCCESS, POST_FAVORITE_SUCCESS, FETCH_START, FETCH_SUCCESS, FETCH_ERROR, LOAD_REVIEWS_SUCCESS, LOAD_REVIEWS_START, SEND_REVIEW_ERROR, LOAD_REVIEWS_ERROR, LOAD_OFFERS_ERROR, CLEAR_USER, CLEAR_ERRORS} from "../action-types";
 import {offerAdapter, reviewAdapter} from "../../../api/api";
 
 const ActionCreator = {
@@ -45,16 +45,13 @@ const ActionCreator = {
     type: POST_FAVORITE_SUCCESS,
     payload: {id: hotelId, status}
   }),
-  /*   postFavoriteError: () => ({
-    type: POST_FAVORITE_ERROR,
-  }), */
 
   loadReviewsStart: () => ({
     type: LOAD_REVIEWS_START,
   }),
   loadReviewsSuccess: (reviews) => ({
     type: LOAD_REVIEWS_SUCCESS,
-    reviews,
+    reviews: reviews.sort((a, b) => new Date(b.date) - new Date(a.date)),
   }),
   loadReviewsError: () => ({
     type: LOAD_REVIEWS_ERROR,
@@ -73,6 +70,9 @@ const ActionCreator = {
       message: error.message,
       error,
     }
+  }),
+  clearErrors: () => ({
+    type: CLEAR_ERRORS,
   }),
 };
 

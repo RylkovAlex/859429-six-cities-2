@@ -12,6 +12,7 @@ it(`OfferCard correctly renders after relaunch`, () => {
     handleBookmarkClick: jest.fn(),
     cardType: ListType.MainList,
     isFetching: false,
+    isAuthorized: true,
   };
 
   const tree = renderer
