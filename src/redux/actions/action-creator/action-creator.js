@@ -89,7 +89,9 @@ export const Operation = {
 
   sendAuthData: (authData) => (dispatch, getState, api) => {
     return api.post(`/login`, authData).then((response) => {
-      localStorage.setItem(`user`, JSON.stringify(response.data));
+      const userData = response.data;
+      userData.password = authData.password;
+      localStorage.setItem(`user`, JSON.stringify(userData));
       dispatch(ActionCreator.loginSuccess(response.data));
     });
   },

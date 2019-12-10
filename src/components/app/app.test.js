@@ -17,6 +17,7 @@ it(`App correctly renders after relaunch`, () => {
     isAppReady: true,
     offersToShow: offersMock,
     loadOffers: jest.fn(),
+    autoLogIn: jest.fn(),
   };
 
   const tree = renderer
@@ -36,6 +37,7 @@ it(`App correctly return null if there aren't offers`, () => {
     isAppReady: false,
     offersToShow: [],
     loadOffers: jest.fn(),
+    autoLogIn: jest.fn(),
   };
 
   const tree = renderer

@@ -11,7 +11,15 @@ import Favorites from '../favorrites/favorites.jsx';
 import MainWithSortedOffers from '../main/main.jsx';
 import OfferPage from '../offer-page/offer-page.jsx';
 
-const App = ({offersToShow, isAppReady, loadOffers}) => {
+const App = ({offersToShow, isAppReady, loadOffers, autoLogIn}) => {
+  // Если в LocalStorage есть данные пользователя, то сразу выполняю авторизацию - это нужно для корректной работы Roter'a при вводе путей напрямую в адресную строку, а не через клики по навигационным ссылкам.
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem(`user`));
+    if (user) {
+      autoLogIn({email: user.email, password: user.password});
+    }
+  }, []);
+
   useEffect(() => {
     loadOffers();
   }, []);
@@ -37,6 +45,7 @@ App.propTypes = {
   offersToShow: PropTypes.array.isRequired,
   isAppReady: PropTypes.bool.isRequired,
   loadOffers: PropTypes.func.isRequired,
+  autoLogIn: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) =>
@@ -45,8 +54,9 @@ const mapStateToProps = (state, ownProps) =>
     offersToShow: getOffersToShow(state),
   });
 
-const mapDispatchToProps = (dispath) => ({
-  loadOffers: () => dispath(Operation.loadOffers()),
+const mapDispatchToProps = (dispatch) => ({
+  loadOffers: () => dispatch(Operation.loadOffers()),
+  autoLogIn: (authData) => dispatch(Operation.sendAuthData(authData)),
 });
 
 export {App};

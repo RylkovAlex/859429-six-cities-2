@@ -189,6 +189,7 @@ describe(`appReducer works correctly`, () => {
       // eslint-disable-next-line camelcase
       is_pro: false,
       name: `User`,
+      password: `12345`
     };
 
     const dispatch = jest.fn();
