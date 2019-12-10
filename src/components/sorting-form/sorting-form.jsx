@@ -44,5 +44,4 @@ SortingForm.propTypes = {
 };
 
 export {SortingForm};
-
 export default withSortingList(SortingForm);

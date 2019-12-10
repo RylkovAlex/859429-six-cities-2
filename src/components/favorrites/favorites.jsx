@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-import Header from '../header/header.jsx';
-import {firstToUpperCase} from '../../utils/utils';
-import {getFavorites, getCities} from '../../redux/selectors/selectors';
+
+import {connect} from 'react-redux';
 import ActionCreator, {Operation} from '../../redux/actions/action-creator/action-creator';
+import {getFavorites, getCities} from '../../redux/selectors/selectors';
+
+import {firstToUpperCase} from '../../utils/utils';
+import Header from '../header/header.jsx';
 import FavoritesEmpty from '../favorites-empty/favorites-empty.jsx';
 import OffersList, {ListType} from '../offers-list/offers-list.jsx';
 import withAuth from '../../hocs/with-auth/with-auth.jsx';
@@ -79,8 +81,6 @@ Favorites.propTypes = {
   setCity: PropTypes.func.isRequired,
 };
 
-export {Favorites};
-
 const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
   activeCity: state.city,
   cities: getCities(state),
@@ -92,4 +92,5 @@ const mapDispatchToProps = (dispatch) => ({
   postFavorite: (cardId, status) => dispatch(Operation.postFavorite(cardId, status)),
 });
 
+export {Favorites};
 export default withAuth(connect(mapStateToProps, mapDispatchToProps)(Favorites));

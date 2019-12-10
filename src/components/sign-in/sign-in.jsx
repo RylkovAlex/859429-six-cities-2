@@ -74,8 +74,6 @@ SignIn.propTypes = {
   logIn: PropTypes.func.isRequired
 };
 
-export {SignIn};
-
 const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
   user: state.user,
 });
@@ -84,6 +82,7 @@ const mapDispatchToProps = (dispatch) => ({
   logIn: (authData) => dispatch(Operation.sendAuthData(authData))
 });
 
+export {SignIn};
 export default connect(
     mapStateToProps,
     mapDispatchToProps

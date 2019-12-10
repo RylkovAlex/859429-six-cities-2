@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
-import {connect} from 'react-redux';
 import {Route, Switch, Redirect, withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import {getOffersToShow} from '../../redux/selectors/selectors.js';
@@ -39,8 +39,6 @@ App.propTypes = {
   loadOffers: PropTypes.func.isRequired,
 };
 
-export {App};
-
 const mapStateToProps = (state, ownProps) =>
   Object.assign({}, ownProps, {
     isAppReady: state.isAppReady,
@@ -51,4 +49,5 @@ const mapDispatchToProps = (dispath) => ({
   loadOffers: () => dispath(Operation.loadOffers()),
 });
 
+export {App};
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(App));

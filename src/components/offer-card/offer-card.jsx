@@ -121,12 +121,11 @@ OfferCard.propTypes = {
   isAuthorized: PropTypes.bool.isRequired,
 };
 
-export {OfferCard};
-
 const mapStateToProps = (state, ownProps) =>
   Object.assign({}, ownProps, {
     isFetching: state.isFetching,
     isAuthorized: !!state.user,
   });
 
+export {OfferCard};
 export default connect(mapStateToProps, null)(OfferCard);

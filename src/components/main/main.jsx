@@ -96,8 +96,6 @@ Main.propTypes = {
   postFavorite: PropTypes.func.isRequired,
 };
 
-export {Main};
-
 const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
   activeCard: state.activeCard,
   city: state.city,
@@ -111,4 +109,5 @@ const mapDispatchToProps = (dispatch) => ({
   postFavorite: (cardId, status) => dispatch(Operation.postFavorite(cardId, status)),
 });
 
+export {Main};
 export default withSortingState(connect(mapStateToProps, mapDispatchToProps)(Main));

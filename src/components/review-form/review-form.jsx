@@ -114,8 +114,6 @@ ReviewForm.propTypes = {
   hotelId: PropTypes.number.isRequired
 };
 
-export {ReviewForm};
-
 const mapStateToProps = (state, ownProps) =>
   Object.assign({}, ownProps, {
     isReviewSending: state.isReviewSending,
@@ -139,4 +137,5 @@ const formWithState = withInputsState(ReviewForm, [`rating`, `comment`], {
   }
 });
 
+export {ReviewForm};
 export default connect(mapStateToProps, mapDispatchToProps)(formWithState);

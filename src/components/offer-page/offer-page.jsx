@@ -230,8 +230,6 @@ OfferPage.propTypes = {
   isFetching: PropTypes.bool
 };
 
-export {OfferPage};
-
 const mapStateToProps = (state, ownProps) =>
   Object.assign({}, ownProps, {
     activeCard: state.activeCard,
@@ -252,4 +250,5 @@ const mapDispatchToProps = (dispatch) => ({
   loadReviews: (cardId) => dispatch(Operation.loadReviews(cardId))
 });
 
+export {OfferPage};
 export default connect(mapStateToProps, mapDispatchToProps)(OfferPage);
