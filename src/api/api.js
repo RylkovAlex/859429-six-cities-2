@@ -76,4 +76,5 @@ export const reviewAdapter = {
     comment: rawReview.comment,
     date: rawReview.date,
   }),
+  allToModel: (rawReviews) => rawReviews.map((rawReview) => reviewAdapter.toModel(rawReview))
 };

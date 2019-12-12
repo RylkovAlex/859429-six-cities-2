@@ -99,7 +99,7 @@ export const Operation = {
   loadReviews: (hotelId) => (dispatch, getState, api) => {
     dispatch(ActionCreator.loadReviewsStart());
     return api.get(`/comments/${hotelId}`).then((response) => {
-      const reviews = response.data.map((review) => reviewAdapter.toModel(review));
+      const reviews = reviewAdapter.allToModel(response.data);
       dispatch(ActionCreator.loadReviewsSuccess(reviews));
     }).catch((err) => {
       dispatch(ActionCreator.loadReviewsError());
@@ -109,10 +109,10 @@ export const Operation = {
 
   sendReview: (review, hotelId) => (dispatch, getState, api) => {
     dispatch(ActionCreator.sendReviewStart());
-    return api.post(`/comments/${hotelId}`, review).then(() => {
+    return api.post(`/comments/${hotelId}`, review).then((response) => {
       dispatch(ActionCreator.sendReviewSuccess());
-      // Обновляю список отзывов:
-      dispatch(Operation.loadReviews(hotelId));
+      const reviews = reviewAdapter.allToModel(response.data);
+      dispatch(ActionCreator.loadReviewsSuccess(reviews));
     }).catch((err) => {
       dispatch(ActionCreator.sendReviewError());
       throw err;
