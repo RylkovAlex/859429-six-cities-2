@@ -344,6 +344,22 @@ describe(`appReducer works correctly`, () => {
 
   it(`Should make a correct API post request to /comments`, function () {
     const mockReview = reviewsMock[0];
+    const apiReviewsResponse = [
+      {
+        id: 1,
+        user: {
+          id: 4,
+          // eslint-disable-next-line camelcase
+          is_pro: false,
+          name: `Max`,
+          // eslint-disable-next-line camelcase
+          avatar_url: `/img/avatar-max.jpg`
+        },
+        rating: 4,
+        comment: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.`,
+        date: `2019-05-08T14:13:56.569Z`
+      },
+    ];
     const dispatch = jest.fn();
     const api = createAPI(dispatch);
     const apiMock = new MockAdapter(api);
@@ -352,7 +368,7 @@ describe(`appReducer works correctly`, () => {
 
     apiMock
       .onPost(`/comments/${hotelId}`)
-      .reply(200);
+      .reply(200, apiReviewsResponse);
 
     return sendReview(dispatch, jest.fn(), api)
       .then(() => {
